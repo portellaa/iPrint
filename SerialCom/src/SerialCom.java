@@ -7,10 +7,31 @@ public class SerialCom implements SerialPortEventListener
 	private static final int TIMEOUT = 2000;
 	private InputStream in = null;
     private OutputStream out = null;
-    private byte[] bufferin = new byte[1024];							//Buffer que contém as leituras de dados
+    private byte[] bufferin = new byte[1024];							//Buffer que contém as leituras de dados vindos do uC
 	
 	public static void main(String[] args) throws Exception
 	{
+		File file = new File("D:/RFID-workspace/rfid-iprint/SerialCom/VHDLTutorial.pdf");
+		
+		FileInputStream fis = new FileInputStream(file);
+		
+		ByteArrayOutputStream bos = new ByteArrayOutputStream();
+		
+		byte[] buf = new byte[1024];
+        try {
+            for (int readNum; (readNum = fis.read(buf)) != -1;) {
+                bos.write(buf, 0, readNum);
+                System.out.println("A ler " + readNum + " bytes.");
+            }
+        } catch (IOException ex) {
+            System.out.println("Não é possível converter ficheiro em array de bytes.");
+        }
+        byte[] readfile = bos.toByteArray();
+		
+        System.out.println("Ficheiro lido com sucesso.");
+        
+        
+        
 		SerialCom main = new SerialCom();
 		
 		HashMap<String, CommPortIdentifier> portMap = null;				//HashMap com as portas série do tipo
@@ -22,11 +43,15 @@ public class SerialCom implements SerialPortEventListener
 		CommPortIdentifier Port = portMap.get("COM3");					//Obtenção da porta COM3 a partir do HashMap
 		System.out.print("Portas série disponíveis: ");
         System.out.println(Port.getName() + "\n");						//Impressão do nome da porta (COM3)
-
+                
         serialPort = main.connect(Port);
         
         main.initIOStream(serialPort);
         main.initListener(serialPort);
+
+        
+        main.writeData(readfile);
+        
         
         main.disconnect(serialPort);
         
@@ -75,7 +100,7 @@ public class SerialCom implements SerialPortEventListener
         }
         catch (PortInUseException e)
         {
-        	System.out.println("A porta "  + Port.getName() +  " está a ser utilizada.\n");
+        	System.out.println("A porta "  + Port.getName() +  " está a ser utilizada.");
         }
         catch (Exception e)
         {
@@ -99,7 +124,7 @@ public class SerialCom implements SerialPortEventListener
             out = serialPort.getOutputStream();
         }
         catch (IOException e) {
-        	System.out.println("Não é possível abrir canais de IO.\n");
+        	System.out.println("Não é possível abrir canais de IO.");
         }
     }
 	
@@ -120,7 +145,7 @@ public class SerialCom implements SerialPortEventListener
         }
         catch (TooManyListenersException e)
         {
-        	System.out.println("Não é possível iniciar interrupções.\n");
+        	System.out.println("Não é possível iniciar interrupções.");
         }
     }
 
@@ -155,7 +180,7 @@ public class SerialCom implements SerialPortEventListener
             }
             catch (Exception e)
             {
-            	System.out.println("Não é possível ler dados.\n");
+            	System.out.println("Não é possível ler dados.");
             }
         }
 	}
@@ -164,21 +189,21 @@ public class SerialCom implements SerialPortEventListener
 	/*
 	 * writeData(int writebyte)
 	 * 
-	 * Envia um byte de dados pela porta série, depois de ter sido efectuada uma ligação com sucesso.
-	 * O byte é retirado dos 8 bits menos significativos do argumento inteiro.
-	 * IMPORTANTE: Poderá em opção enviar um array de bytes passado no argumento.
+	 * Envia um array de bytes de dados pela porta série, depois de ter sido efectuada uma ligação com sucesso.
+	 * NOTA: Poderá em opção enviar byte passado como inteiro no argumento. O byte é retirado dos 8 bits menos 
+	 * significativos do argumento inteiro.
 	 * 
 	 */
-	public void writeData(int writebyte)
+	public void writeData(byte[] writebytes)
     {
         try
         {
-            out.write(writebyte);
+            out.write(writebytes);
             out.flush();
         }
         catch (Exception e)
         {
-        	System.out.println("Não é possível enviar dados.\n");
+        	System.out.println("Não é possível enviar dados.");
         }
     }
 	
@@ -198,11 +223,11 @@ public class SerialCom implements SerialPortEventListener
             in.close();
             out.close();
                         
-            System.out.println("Ligação fechada.\n");
+            System.out.println("Ligação fechada.");
         }
         catch (Exception e)
         {
-        	System.out.println("Não é possível fechar a ligação da porta " + serialPort.getName() + ".\n");
+        	System.out.println("Não é possível fechar a ligação da porta " + serialPort.getName() + ".");
         }
     }
 
