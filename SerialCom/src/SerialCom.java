@@ -1,6 +1,7 @@
 import gnu.io.*;
 import java.util.*;
 import java.io.*;
+import java.nio.*;
 
 public class SerialCom implements SerialPortEventListener
 {
@@ -8,10 +9,15 @@ public class SerialCom implements SerialPortEventListener
 	private InputStream in = null;
     private OutputStream out = null;
     private byte[] bufferin = new byte[1024];							//Buffer que contém as leituras de dados vindos do uC
-	
+    private int available=1;
+    
 	public static void main(String[] args) throws Exception
 	{
-		File file = new File("D:/RFID-workspace/rfid-iprint/SerialCom/VHDLTutorial.pdf");
+		SerialCom main = new SerialCom();
+		int length=0;
+		byte[] lengthbyte;
+		
+		File file = new File("D:/RFID-workspace/rfid-iprint/SerialCom/VHDLTutorial.txt");
 		
 		FileInputStream fis = new FileInputStream(file);
 		
@@ -20,8 +26,9 @@ public class SerialCom implements SerialPortEventListener
 		byte[] buf = new byte[1024];
         try {
             for (int readNum; (readNum = fis.read(buf)) != -1;) {
-                bos.write(buf, 0, readNum);
-                System.out.println("A ler " + readNum + " bytes.");
+                length+=readNum;													//Tamanho do array de bytes do ficheiro
+            	bos.write(buf, 0, readNum);
+                System.out.println("A ler " + readNum + " bytes...");
             }
         } catch (IOException ex) {
             System.out.println("Não é possível converter ficheiro em array de bytes.");
@@ -31,29 +38,42 @@ public class SerialCom implements SerialPortEventListener
         System.out.println("Ficheiro lido com sucesso.");
         
         
+        lengthbyte=main.intToByteArray(length);
+
         
-		SerialCom main = new SerialCom();
-		
+        //-------------------------------------
+
 		HashMap<String, CommPortIdentifier> portMap = null;				//HashMap com as portas série do tipo
 																		//CommPortIdentifier
 		SerialPort serialPort = null;
-		
 		portMap=main.searchForPorts();
-		
-		CommPortIdentifier Port = portMap.get("COM3");					//Obtenção da porta COM3 a partir do HashMap
-		System.out.print("Portas série disponíveis: ");
-        System.out.println(Port.getName() + "\n");						//Impressão do nome da porta (COM3)
-                
+		CommPortIdentifier Port = portMap.get("COM4");
         serialPort = main.connect(Port);
-        
         main.initIOStream(serialPort);
         main.initListener(serialPort);
+        
+        Thread.sleep(3000);
+       
+        //-------------------------------------
+                        
+       	main.writeData(lengthbyte);
+       	
+       	Thread.sleep(1000);
+       	
+      	for(int i=0; i<main.available;i++)
+    		System.out.println(main.bufferin[i]);
 
+      	main.writeData(readfile);
+              
+        Thread.sleep(1000);
         
-        main.writeData(readfile);
+        for(int i=0; i<main.available;i++)
+    		System.out.println(main.bufferin[i]);
         
+        Thread.sleep(10);
         
         main.disconnect(serialPort);
+
         
 	}
 	
@@ -93,7 +113,7 @@ public class SerialCom implements SerialPortEventListener
         
         try
         {
-            commPort = Port.open("COM3", TIMEOUT); 				//A partir de CommPortIdentifier obtém-se CommPort
+            commPort = Port.open("COM4", TIMEOUT); 				//A partir de CommPortIdentifier obtém-se CommPort
             serialPort = (SerialPort)commPort;					//Cast de CommPort para SerialPort
             serialPort.setSerialPortParams(9600,SerialPort.DATABITS_8,SerialPort.STOPBITS_1,SerialPort.PARITY_NONE);
 
@@ -153,45 +173,31 @@ public class SerialCom implements SerialPortEventListener
     /*
      * serialEvent(SerialPortEvent evt) 
      * 
-     * Lê bytes de informação sempre que sejam transmitidos para o computador pela porta série e guarda-os
-     * na variável global bufferin de 1KB.
-     * IMPORTANTE: Poderá ler um array de bytes inteiro (ver arduino.cc).
-     * 
+     * Lê um array de bytes de informação sempre que sejam transmitidos para o computador pela porta série
+     * e guarda-os na variável global bufferin de tamanho máximo 1024B.
+     *  
      */
 	public synchronized void serialEvent(SerialPortEvent evt) 
 	{
-		int data;
-		
 		if (evt.getEventType() == SerialPortEvent.DATA_AVAILABLE)	  //Verifica se o evento é transmissão de dados
         {
             try
             {
-                int i = 0;
-                data = in.read();									  //Lê um byte do canal de entrada
-                while (data > -1)									  //Se o byte lido for -1, então a leitura chegou
-                {													  //ao fim. A variável data é um inteiro entre 0 e
-                													  //255 que é depois convertida para byte.
-                	if(data != '\n')								  //Envio aleatório de '\n' tem que ser ignorado
-                	{
-                		bufferin[i] = (byte)data;
-                		i++;
-                	}
-                }
+            	available = in.available();
+				in.read(bufferin, 0, available);
             }
             catch (Exception e)
             {
-            	System.out.println("Não é possível ler dados.");
+            	System.err.println(e.toString());
             }
         }
 	}
 	
 	
 	/*
-	 * writeData(int writebyte)
+	 * writeData(byte[] writebyte)
 	 * 
 	 * Envia um array de bytes de dados pela porta série, depois de ter sido efectuada uma ligação com sucesso.
-	 * NOTA: Poderá em opção enviar byte passado como inteiro no argumento. O byte é retirado dos 8 bits menos 
-	 * significativos do argumento inteiro.
 	 * 
 	 */
 	public void writeData(byte[] writebytes)
@@ -203,7 +209,7 @@ public class SerialCom implements SerialPortEventListener
         }
         catch (Exception e)
         {
-        	System.out.println("Não é possível enviar dados.");
+        	System.err.println(e.toString());
         }
     }
 	
@@ -231,6 +237,14 @@ public class SerialCom implements SerialPortEventListener
         }
     }
 
-	
+	public byte[] intToByteArray(int length)
+	{
+		ByteBuffer b = ByteBuffer.allocate(4);
+		b.order(ByteOrder.LITTLE_ENDIAN);
+	       
+	    b.putInt(length);
+		
+		return b.array();
+	}
 	
 }
