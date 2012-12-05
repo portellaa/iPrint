@@ -9,7 +9,7 @@ public class SerialCom implements SerialPortEventListener
 	private InputStream in = null;
     private OutputStream out = null;
     private byte[] bufferin = new byte[1024];							//Buffer que contém as leituras de dados vindos do uC
-    private int available=1;
+    private int available=1, oldavailable=0,i;
     
 	public static void main(String[] args) throws Exception
 	{
@@ -52,29 +52,30 @@ public class SerialCom implements SerialPortEventListener
         main.initIOStream(serialPort);
         main.initListener(serialPort);
         
-        Thread.sleep(3000);
+        Thread.sleep(2000);
        
         //-------------------------------------
-                        
-       	main.writeData(lengthbyte);
+        
+        for(int j=0; j<4; j++)
+        	System.out.println(lengthbyte[j]);
+        System.out.println();
+        main.writeData(lengthbyte);
        	
-       	Thread.sleep(1000);
-       	
-      	for(int i=0; i<main.available;i++)
-    		System.out.println(main.bufferin[i]);
+        Thread.sleep(500);
 
-      	main.writeData(readfile);
+        main.writeData(readfile);
               
         Thread.sleep(1000);
-        
-        for(int i=0; i<main.available;i++)
-    		System.out.println(main.bufferin[i]);
-        
+                
+        for(main.i=0; main.i<1024 && main.bufferin[main.i] != 0; main.i++)
+        	System.out.println(main.bufferin[main.i]);
+        System.out.println(main.i);
+       
         Thread.sleep(10);
         
         main.disconnect(serialPort);
 
-        
+
 	}
 	
 	/*
@@ -115,7 +116,7 @@ public class SerialCom implements SerialPortEventListener
         {
             commPort = Port.open("COM4", TIMEOUT); 				//A partir de CommPortIdentifier obtém-se CommPort
             serialPort = (SerialPort)commPort;					//Cast de CommPort para SerialPort
-            serialPort.setSerialPortParams(9600,SerialPort.DATABITS_8,SerialPort.STOPBITS_1,SerialPort.PARITY_NONE);
+            serialPort.setSerialPortParams(115200,SerialPort.DATABITS_8,SerialPort.STOPBITS_1,SerialPort.PARITY_NONE);
 
         }
         catch (PortInUseException e)
@@ -183,8 +184,13 @@ public class SerialCom implements SerialPortEventListener
         {
             try
             {
-            	available = in.available();
-				in.read(bufferin, 0, available);
+            	//if(in.available() > 0)
+            	//{
+            		available = in.available();
+            		in.read(bufferin, oldavailable, available);
+            		oldavailable=available;
+            		
+            	//}
             }
             catch (Exception e)
             {
