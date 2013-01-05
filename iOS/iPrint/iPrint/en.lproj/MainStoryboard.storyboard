@@ -273,24 +273,6 @@
     <resources>
         <image name="cabinet.png" width="16" height="16"/>
     </resources>
-    <classes>
-        <class className="FileOperationsViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/FileOperationsViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="printFileClicked:"/>
-                <relationship kind="outlet" name="creationdateLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="filenameLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="filesizeLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="filetypeLabel" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-        <class className="FilesTableViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/FilesTableViewController.h"/>
-        </class>
-        <class className="NSLayoutConstraint" superclassName="NSObject">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

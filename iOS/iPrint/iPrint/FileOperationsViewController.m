@@ -63,6 +63,11 @@
 	
 	NSLog(@"Starting sending file to server...");
 	
+	MBProgressHUD *printAnimation = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+	[printAnimation setMode:MBProgressHUDModeIndeterminate];
+	
+	[printAnimation setLabelText:@"Printing..."];
+	
 	NSData *fileToSendData;
 
 	CFReadStreamRef readStream;
@@ -77,6 +82,9 @@
 	[inputStream open];
 	[outputStream open];
 	
+	[inputStream setDelegate: self];
+	[outputStream setDelegate: self];
+	
 	fileToSendData = [[NSFileManager defaultManager] contentsAtPath: [NSString stringWithFormat:@"%@/%@", _docsDir, _filePath]];
 	
 	[outputStream write: [fileToSendData bytes] maxLength: [fileToSendData length]];
@@ -89,6 +97,7 @@
 	switch (eventCode) {
 		case NSStreamEventHasBytesAvailable:
 			NSLog(@"Data available on socket");
+			[MBProgressHUD hideHUDForView:self.view animated:YES];
 			break;
 			
 		default:

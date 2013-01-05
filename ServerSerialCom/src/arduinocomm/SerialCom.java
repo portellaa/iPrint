@@ -1,102 +1,56 @@
 package arduinocomm;
 import gnu.io.*;
+
 import java.util.*;
+import java.util.logging.Logger;
 import java.io.*;
 import java.nio.*;
 
+import shared.Configs;
+
 public class SerialCom implements SerialPortEventListener
 {
-	private static final int TIMEOUT = 2000;
+	private final static Logger LOGGER = Logger.getLogger(SerialCom.class.getName());
+	
 	private InputStream in = null;
     private OutputStream out = null;
     private byte[] bufferin = new byte[16];							//Buffer que contém as leituras de dados vindos do uC
-    private int available=1, oldavailable=0,i;
-    private byte[] send = new byte[15];
+ 
+    private int available = 0, bytesRead = 0;
+    private byte[] send = null;
     
+    private SerialPort serialPort = null;
+    private CommPortIdentifier Port = null;
+	
     
-    private int bytesRead;
-    
-	public static void main(String[] args) throws Exception
+    public SerialCom()
+    {
+    	LOGGER.info("Instanciating SerialCom.");
+    	
+    	HashMap<String, CommPortIdentifier> portMap = searchForPorts();
+		Port = portMap.get(Configs.ARDUINO_WIN_PORT);
+		
+		LOGGER.info("Instanciated SerialCom.");
+    }
+	
+	public boolean initialize()
 	{
-		SerialCom main = new SerialCom();
-		int length=0;
-		int t=0;
+		if (Port == null)
+		{
+			LOGGER.warning("No arduino device connected.");
+			return false;
+		}
 		
-		File file = new File("D:/RFID-workspace/rfid-iprint/SerialCom/VHDLTutorial.txt");
+		serialPort = connect(Port);
+		initIOStream(serialPort);
+		initListener(serialPort);
 		
-		FileInputStream fis = new FileInputStream(file);
-		
-		ByteArrayOutputStream bos = new ByteArrayOutputStream();
-		
-		byte[] buf = new byte[1024];
-        try {
-            for (int readNum; (readNum = fis.read(buf)) != -1;) {
-                length+=readNum;													//Tamanho do array de bytes do ficheiro
-            	bos.write(buf, 0, readNum);
-                System.out.println("A ler " + readNum + " bytes...");
-            }
-        } catch (IOException ex) {
-            System.out.println("Não é possível converter ficheiro em array de bytes.");
-        }
-        byte[] readfile = bos.toByteArray();
-		
-        System.out.println("Ficheiro lido com sucesso.");
-        
-        
-        //-------------------------------------
-
-		HashMap<String, CommPortIdentifier> portMap = null;				//HashMap com as portas série do tipo
-																		//CommPortIdentifier
-		SerialPort serialPort = null;
-		portMap=main.searchForPorts();
-		CommPortIdentifier Port = portMap.get("COM7");
-        serialPort = main.connect(Port);
-        main.initIOStream(serialPort);
-        main.initListener(serialPort);
-        
-        Thread.sleep(4000);
-       
-        //-------------------------------------
-        
-        
-        while(length>=15)
-        {
-        	for(int i=0;i<15;i++)
-        		main.send[i]=readfile[i+t];
-        	
-        	t+=15;
-        	main.writeData(main.send);        	
-        
-        	length-=15;      
-        
-        	while(main.bufferin[0] != 49);
-        	main.bufferin[0] = 0;
-        	
-        }
-        
-      
-        /*TODO: Se o ficheiro não for múltiplo de 15 bytes, o pedaço de código abaixo é executado. O main.send é preenchido
-       			com os dados que falta enviar e zeros. Mas os dados não são enviados!
-        */
-        if(length !=0)
-        {
-        	for(int i=0;i<length;i++)
-        		main.send[i]=readfile[i+t];
-        	
-        	for(int i=length;i<15;i++)
-        		main.send[i]=0;
-     	            	
-        	main.writeData(main.send);
-        }
-        
-        while(main.bufferin[0] != 49);
-    	main.bufferin[0] = 0;
-       
-    
-        
-        main.disconnect(serialPort);
-
-
+		return true;
+	}
+	
+	public void close()
+	{
+		disconnect(serialPort);
 	}
 	
 	/*
@@ -108,7 +62,7 @@ public class SerialCom implements SerialPortEventListener
 	 */
 	public HashMap<String, CommPortIdentifier> searchForPorts()
     {
-		HashMap<String, CommPortIdentifier> portMap = new HashMap();
+		HashMap<String, CommPortIdentifier> portMap = new HashMap<String, CommPortIdentifier>();
         
 		Enumeration<CommPortIdentifier> ports = CommPortIdentifier.getPortIdentifiers();
 		while (ports.hasMoreElements())
@@ -135,7 +89,7 @@ public class SerialCom implements SerialPortEventListener
         
         try
         {
-            commPort = Port.open("COM4", TIMEOUT); 				//A partir de CommPortIdentifier obtém-se CommPort
+            commPort = Port.open(Configs.ARDUINO_WIN_PORT, Configs.TIMEOUT); 				//A partir de CommPortIdentifier obtém-se CommPort
             serialPort = (SerialPort)commPort;					//Cast de CommPort para SerialPort
             serialPort.setSerialPortParams(115200,SerialPort.DATABITS_8,SerialPort.STOPBITS_1,SerialPort.PARITY_NONE);
 
@@ -272,6 +226,44 @@ public class SerialCom implements SerialPortEventListener
 	    b.putInt(length);
 		
 		return b.array();
+	}
+	
+	public synchronized void sendData(byte[] data)
+	{
+		int length = data.length, t = 0;
+		send = new byte[Configs.BYTES_SEND_ARDUINO];
+		
+        while(length >= Configs.BYTES_SEND_ARDUINO)
+        {
+        	for(int i = 0; i < Configs.BYTES_SEND_ARDUINO; i++)
+        		send[i]=data[i+t];
+        	
+        	t += Configs.BYTES_SEND_ARDUINO;
+        	writeData(send);        	
+        
+        	length -= Configs.BYTES_SEND_ARDUINO;      
+        
+        	while(bufferin[0] != 49);
+        	bufferin[0] = 0;
+        	
+        }
+      
+        /*TODO: Se o ficheiro não for múltiplo de 15 bytes, o pedaço de código abaixo é executado. O main.send é preenchido
+       			com os dados que falta enviar e zeros. Mas os dados não são enviados!
+        */
+        if(length !=0)
+        {
+        	for(int i = 0; i < length; i++)
+        		send[i] = data[i+t];
+        	
+        	for(int i = length; i < Configs.BYTES_SEND_ARDUINO; i++)
+        		send[i] = 0;
+     	            	
+        	writeData(send);
+        }
+        
+        while(bufferin[0] != 49);
+    	bufferin[0] = 0;
 	}
 	
 }
