@@ -96,13 +96,51 @@
 	
 	switch (eventCode) {
 		case NSStreamEventHasBytesAvailable:
+			
 			NSLog(@"Data available on socket");
-			[MBProgressHUD hideHUDForView:self.view animated:YES];
+			
+			if (inputStream == aStream)
+			{
+				uint8_t buffer[1024];
+				int len;
+				
+				while ([inputStream hasBytesAvailable])
+				{
+					len = [inputStream read:buffer maxLength:sizeof(buffer)];
+					
+					if (len > 0) {
+						NSString *output = [[NSString alloc] initWithBytes:buffer length:len encoding:NSASCIIStringEncoding];
+						
+						if (output != nil)
+						{
+							NSLog(@"Server answer: %@", output);
+							
+							if ([output isEqualToString:@"DATA_SENT_OK"])
+							{
+								[MBProgressHUD hideHUDForView:self.view animated:YES];
+								[self showAlertWithTitle:@"Print File" andMessage:@"File Printed"];
+							}
+							else if ([output isEqualToString:@"DATA_SENT_ERROR"])
+							{
+								[self showAlertWithTitle:@"Print File" andMessage:@"File not printed."];
+							}
+						}
+					}
+				}
+			}
+			
 			break;
 			
 		default:
 			break;
 	}
+}
+
+- (void) showAlertWithTitle:(NSString*) title andMessage:(NSString*) message
+{
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title message:message delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+	[alert show];
+	[alert release];
 }
 
 - (void)dealloc {

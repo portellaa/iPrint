@@ -67,8 +67,14 @@ public class HandleClient extends Thread {
 					
 					System.out.println("Data Received from client on server: " + new String(array));
 					
-					outClient.writeUTF("DATA_RECEIVED");
-					outClient.flush();
+					//TODO uncoment to work
+//					if (arduinoSender.sendData(array))
+//					{
+						outClient.write(new String("DATA_SENT_OK").getBytes());
+//					}
+//					else outClient.write(new String("DATA_SENT_ERROR").getBytes());
+					
+//					outClient.flush();
 				}
 				
 			} catch (IOException e) {

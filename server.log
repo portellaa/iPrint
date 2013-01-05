@@ -1,44 +1,76 @@
-Jan 5, 2013 10:32:19 PM arduinocomm.SerialCom <init>
+Jan 5, 2013 11:38:30 PM arduinocomm.SerialCom <init>
 INFO: Instanciating SerialCom.
-Jan 5, 2013 10:32:19 PM arduinocomm.SerialCom <init>
+Jan 5, 2013 11:38:30 PM arduinocomm.SerialCom <init>
+INFO: Running operating system: Mac OS X
+Jan 5, 2013 11:38:30 PM arduinocomm.SerialCom <init>
+INFO: OS X detected.
+Jan 5, 2013 11:38:30 PM arduinocomm.SerialCom <init>
 INFO: Instanciated SerialCom.
-Jan 5, 2013 10:32:19 PM server.TCPServer <init>
+Jan 5, 2013 11:38:30 PM server.TCPServer <init>
 INFO: Initializing TCP Server
-Jan 5, 2013 10:32:19 PM server.TCPServer <init>
+Jan 5, 2013 11:38:30 PM server.TCPServer <init>
 INFO: Initialized TCP Server.
-Jan 5, 2013 10:32:19 PM server.TCPServer run
+Jan 5, 2013 11:38:30 PM server.TCPServer run
 INFO: Started TCP Server
-Jan 5, 2013 10:32:29 PM server.TCPServer run
-INFO: Server socket timeout
-Jan 5, 2013 10:32:36 PM server.TCPServer run
+Jan 5, 2013 11:38:39 PM server.TCPServer run
 INFO: Received connection from 0:0:0:0:0:0:0:1%0
-Jan 5, 2013 10:32:36 PM server.HandleClient <init>
+Jan 5, 2013 11:38:39 PM server.HandleClient <init>
 INFO: Initializing HandleClient to client IP: 0:0:0:0:0:0:0:1%0
-Jan 5, 2013 10:32:36 PM server.HandleClient <init>
+Jan 5, 2013 11:38:39 PM server.HandleClient <init>
 INFO: Opening streams
-Jan 5, 2013 10:32:36 PM server.HandleClient <init>
+Jan 5, 2013 11:38:39 PM server.HandleClient <init>
 INFO: Opened streams
-Jan 5, 2013 10:32:36 PM server.HandleClient <init>
+Jan 5, 2013 11:38:39 PM server.HandleClient <init>
 INFO: Initialized HandleClient to client IP: 0:0:0:0:0:0:0:1%0
-Jan 5, 2013 10:32:36 PM server.HandleClient run
+Jan 5, 2013 11:38:39 PM server.HandleClient run
 INFO: Started HandleClient to client IP: 0:0:0:0:0:0:0:1%0
-Jan 5, 2013 10:32:36 PM server.HandleClient run
+Jan 5, 2013 11:38:39 PM server.HandleClient run
 INFO: Running: true. Bytes available: 41
-Jan 5, 2013 10:32:46 PM server.TCPServer run
+Jan 5, 2013 11:38:49 PM server.TCPServer run
 INFO: Server socket timeout
-Jan 5, 2013 10:32:56 PM server.TCPServer run
+Jan 5, 2013 11:38:59 PM server.TCPServer run
 INFO: Server socket timeout
-Jan 5, 2013 10:33:06 PM server.TCPServer run
+Jan 5, 2013 11:39:09 PM server.TCPServer run
 INFO: Server socket timeout
-Jan 5, 2013 10:33:16 PM server.TCPServer run
+Jan 5, 2013 11:39:19 PM server.TCPServer run
 INFO: Server socket timeout
-Jan 5, 2013 10:33:26 PM server.TCPServer run
+Jan 5, 2013 11:39:29 PM server.TCPServer run
 INFO: Server socket timeout
-Jan 5, 2013 10:33:36 PM server.TCPServer run
+Jan 5, 2013 11:39:39 PM server.TCPServer run
 INFO: Server socket timeout
-Jan 5, 2013 10:33:46 PM server.TCPServer run
+Jan 5, 2013 11:39:49 PM server.TCPServer run
 INFO: Server socket timeout
-Jan 5, 2013 10:33:56 PM server.TCPServer run
+Jan 5, 2013 11:39:59 PM server.TCPServer run
 INFO: Server socket timeout
-Jan 5, 2013 10:34:06 PM server.TCPServer run
+Jan 5, 2013 11:40:09 PM server.TCPServer run
+INFO: Server socket timeout
+Jan 5, 2013 11:40:19 PM server.TCPServer run
+INFO: Server socket timeout
+Jan 5, 2013 11:40:29 PM server.TCPServer run
+INFO: Server socket timeout
+Jan 5, 2013 11:40:39 PM server.TCPServer run
+INFO: Server socket timeout
+Jan 5, 2013 11:40:49 PM server.TCPServer run
+INFO: Server socket timeout
+Jan 5, 2013 11:40:59 PM server.TCPServer run
+INFO: Server socket timeout
+Jan 5, 2013 11:41:07 PM server.TCPServer run
+INFO: Received connection from 0:0:0:0:0:0:0:1%0
+Jan 5, 2013 11:41:07 PM server.HandleClient <init>
+INFO: Initializing HandleClient to client IP: 0:0:0:0:0:0:0:1%0
+Jan 5, 2013 11:41:07 PM server.HandleClient <init>
+INFO: Opening streams
+Jan 5, 2013 11:41:07 PM server.HandleClient <init>
+INFO: Opened streams
+Jan 5, 2013 11:41:07 PM server.HandleClient <init>
+INFO: Initialized HandleClient to client IP: 0:0:0:0:0:0:0:1%0
+Jan 5, 2013 11:41:07 PM server.HandleClient run
+INFO: Started HandleClient to client IP: 0:0:0:0:0:0:0:1%0
+Jan 5, 2013 11:41:07 PM server.HandleClient run
+INFO: Running: true. Bytes available: 41
+Jan 5, 2013 11:41:17 PM server.TCPServer run
+INFO: Server socket timeout
+Jan 5, 2013 11:41:27 PM server.TCPServer run
+INFO: Server socket timeout
+Jan 5, 2013 11:41:37 PM server.TCPServer run
 INFO: Server socket timeout

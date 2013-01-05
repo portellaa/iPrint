@@ -27,8 +27,21 @@ public class SerialCom implements SerialPortEventListener
     {
     	LOGGER.info("Instanciating SerialCom.");
     	
+    	String system = System.getProperty("os.name");
     	HashMap<String, CommPortIdentifier> portMap = searchForPorts();
-		Port = portMap.get(Configs.ARDUINO_WIN_PORT);
+    	
+    	LOGGER.info("Running operating system: " + system);
+    	
+    	if (system.matches("^Windows.*"))
+    	{
+    		Port = portMap.get(Configs.ARDUINO_WIN_PORT);
+    		LOGGER.info("Windows detected.");
+    	}
+    	else if (system.matches("^Mac.*"))
+    	{
+    		Port = portMap.get(Configs.ARDUINO_MAC_PORT);
+    		LOGGER.info("OS X detected.");
+    	}
 		
 		LOGGER.info("Instanciated SerialCom.");
     }
@@ -60,7 +73,7 @@ public class SerialCom implements SerialPortEventListener
 	 * e retorna-as num HashMap do tipo <String, CommPortIdentifier>.
 	 * 
 	 */
-	public HashMap<String, CommPortIdentifier> searchForPorts()
+	private HashMap<String, CommPortIdentifier> searchForPorts()
     {
 		HashMap<String, CommPortIdentifier> portMap = new HashMap<String, CommPortIdentifier>();
         
@@ -81,7 +94,7 @@ public class SerialCom implements SerialPortEventListener
 	 * Estabelece uma ligação através da porta série do argumento CommPortIdentifier Port.  
 	 * 
 	 */
-	public SerialPort connect(CommPortIdentifier Port)
+	private SerialPort connect(CommPortIdentifier Port)
     {
        
         CommPort commPort = null;
@@ -113,7 +126,7 @@ public class SerialCom implements SerialPortEventListener
 	 * Inicializa canais de IO nas variáveis globais in e out.
 	 * 
 	 */
-	public void initIOStream(SerialPort serialPort)
+	private void initIOStream(SerialPort serialPort)
     {
         try {
             in = serialPort.getInputStream();
@@ -132,7 +145,7 @@ public class SerialCom implements SerialPortEventListener
 	 * novas transmissões de dados para serem efectuadas. Evita polling.
 	 * 
 	 */
-	public void initListener(SerialPort serialPort)
+	private void initListener(SerialPort serialPort)
     {
         try
         {
@@ -181,7 +194,7 @@ public class SerialCom implements SerialPortEventListener
 	 * Envia um array de bytes de dados pela porta série, depois de ter sido efectuada uma ligação com sucesso.
 	 * 
 	 */
-	public void writeData(byte[] writebytes)
+	private void writeData(byte[] writebytes)
     {
         try
         {
@@ -201,7 +214,7 @@ public class SerialCom implements SerialPortEventListener
      * Fecha a ligação série da porta especificada no argumento. Remove o event listener.
      * 
      */
-    public synchronized void disconnect(SerialPort serialPort)
+    private synchronized void disconnect(SerialPort serialPort)
     {
         try
         {
@@ -217,18 +230,8 @@ public class SerialCom implements SerialPortEventListener
         	System.out.println("Não é possível fechar a ligação da porta " + serialPort.getName() + ".");
         }
     }
-
-	public byte[] intToByteArray(int length)
-	{
-		ByteBuffer b = ByteBuffer.allocate(4);
-		b.order(ByteOrder.LITTLE_ENDIAN);
-	       
-	    b.putInt(length);
-		
-		return b.array();
-	}
 	
-	public synchronized void sendData(byte[] data)
+	public synchronized boolean sendData(byte[] data)
 	{
 		int length = data.length, t = 0;
 		send = new byte[Configs.BYTES_SEND_ARDUINO];
@@ -264,6 +267,8 @@ public class SerialCom implements SerialPortEventListener
         
         while(bufferin[0] != 49);
     	bufferin[0] = 0;
+    	
+    	return true;
 	}
 	
 }

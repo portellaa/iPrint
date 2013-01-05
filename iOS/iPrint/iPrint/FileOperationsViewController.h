@@ -25,5 +25,6 @@
 @property (retain, nonatomic) IBOutlet UILabel *filesizeLabel;
 @property (retain, nonatomic) IBOutlet UILabel *creationdateLabel;
 
+- (void) showAlertWithTitle:(NSString*) title andMessage:(NSString*) message;
 
 @end
