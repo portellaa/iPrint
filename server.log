@@ -1,0 +1,42 @@
+Jan 5, 2013 11:32:05 AM server.TCPServer <init>
+INFO: Initializing TCP Server
+Jan 5, 2013 11:32:06 AM server.TCPServer <init>
+INFO: Initialized TCP Server.
+Jan 5, 2013 11:32:06 AM server.TCPServer run
+INFO: Started TCP Server
+Jan 5, 2013 11:34:10 AM server.TCPServer run
+INFO: Received connection from 0:0:0:0:0:0:0:1%0
+Jan 5, 2013 11:34:10 AM server.HandleClient <init>
+INFO: Initializing HandleClient to client IP: 0:0:0:0:0:0:0:1%0
+Jan 5, 2013 11:34:10 AM server.HandleClient <init>
+INFO: Open streams
+Jan 5, 2013 11:34:10 AM server.HandleClient <init>
+INFO: Initialized HandleClient to client IP: 0:0:0:0:0:0:0:1%0
+Jan 5, 2013 11:34:10 AM server.HandleClient run
+INFO: Started HandleClient to client IP: 0:0:0:0:0:0:0:1%0
+Jan 5, 2013 11:34:10 AM server.HandleClient run
+INFO: Running: true. Bytes available: 41
+Jan 5, 2013 11:35:06 AM server.TCPServer run
+INFO: Received connection from 0:0:0:0:0:0:0:1%0
+Jan 5, 2013 11:35:06 AM server.HandleClient <init>
+INFO: Initializing HandleClient to client IP: 0:0:0:0:0:0:0:1%0
+Jan 5, 2013 11:35:06 AM server.HandleClient <init>
+INFO: Open streams
+Jan 5, 2013 11:35:06 AM server.HandleClient <init>
+INFO: Initialized HandleClient to client IP: 0:0:0:0:0:0:0:1%0
+Jan 5, 2013 11:35:06 AM server.HandleClient run
+INFO: Started HandleClient to client IP: 0:0:0:0:0:0:0:1%0
+Jan 5, 2013 11:35:06 AM server.HandleClient run
+INFO: Running: true. Bytes available: 41
+Jan 5, 2013 11:35:20 AM server.TCPServer run
+INFO: Received connection from 0:0:0:0:0:0:0:1%0
+Jan 5, 2013 11:35:20 AM server.HandleClient <init>
+INFO: Initializing HandleClient to client IP: 0:0:0:0:0:0:0:1%0
+Jan 5, 2013 11:35:20 AM server.HandleClient <init>
+INFO: Open streams
+Jan 5, 2013 11:35:20 AM server.HandleClient <init>
+INFO: Initialized HandleClient to client IP: 0:0:0:0:0:0:0:1%0
+Jan 5, 2013 11:35:20 AM server.HandleClient run
+INFO: Started HandleClient to client IP: 0:0:0:0:0:0:0:1%0
+Jan 5, 2013 11:35:20 AM server.HandleClient run
+INFO: Running: true. Bytes available: 97589

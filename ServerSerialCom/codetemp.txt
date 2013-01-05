@@ -1,0 +1,263 @@
+import gnu.io.*;
+import java.util.*;
+import java.io.*;
+import java.nio.*;
+
+public class SerialCom implements SerialPortEventListener
+{
+	private static final int TIMEOUT = 2000;
+	private InputStream in = null;
+    private OutputStream out = null;
+    private byte[] bufferin = new byte[64];							//Buffer que contém as leituras de dados vindos do uC
+    private int available=1, oldavailable=0,i;
+    
+    private int bytesRead;
+    
+	public static void main(String[] args) throws Exception
+	{
+		SerialCom main = new SerialCom();
+		int length=0;
+		byte[] lengthbyte;
+		
+		File file = new File("D:/RFID-workspace/rfid-iprint/SerialCom/VHDLTutorial.txt");
+		
+		FileInputStream fis = new FileInputStream(file);
+		
+		ByteArrayOutputStream bos = new ByteArrayOutputStream();
+		
+		byte[] buf = new byte[1024];
+        try {
+            for (int readNum; (readNum = fis.read(buf)) != -1;) {
+                length+=readNum;													//Tamanho do array de bytes do ficheiro
+            	bos.write(buf, 0, readNum);
+                System.out.println("A ler " + readNum + " bytes...");
+            }
+        } catch (IOException ex) {
+            System.out.println("Não é possível converter ficheiro em array de bytes.");
+        }
+        byte[] readfile = bos.toByteArray();
+		
+        System.out.println("Ficheiro lido com sucesso.");
+        
+        
+        lengthbyte=main.intToByteArray(length);
+
+        
+        //-------------------------------------
+
+		HashMap<String, CommPortIdentifier> portMap = null;				//HashMap com as portas série do tipo
+																		//CommPortIdentifier
+		SerialPort serialPort = null;
+		portMap=main.searchForPorts();
+		CommPortIdentifier Port = portMap.get("COM4");
+        serialPort = main.connect(Port);
+        main.initIOStream(serialPort);
+        main.initListener(serialPort);
+        
+        Thread.sleep(2000);
+       
+        //-------------------------------------
+        
+        for(int j=0; j<4; j++)
+        	System.out.println(lengthbyte[j]);
+        System.out.println();
+        main.writeData(lengthbyte);
+       	
+        Thread.sleep(500);
+
+        main.writeData(readfile);
+              
+        Thread.sleep(1000);
+                
+//        for(main.i=0; main.i<1024 && main.bufferin[main.i] != 0; main.i++)
+//        	System.out.println(main.bufferin[main.i]);
+//        System.out.println(main.i);
+       
+        Thread.sleep(10);
+        
+        main.disconnect(serialPort);
+
+
+	}
+	
+	/*
+	 * searchForPorts()
+	 * 
+	 * Encontra portas série através do método getPortIdentifiers() da classe CommPortIdentifier
+	 * e retorna-as num HashMap do tipo <String, CommPortIdentifier>.
+	 * 
+	 */
+	public HashMap<String, CommPortIdentifier> searchForPorts()
+    {
+		HashMap<String, CommPortIdentifier> portMap = new HashMap();
+        
+		Enumeration<CommPortIdentifier> ports = CommPortIdentifier.getPortIdentifiers();
+		while (ports.hasMoreElements())
+        {
+            CommPortIdentifier currentPort = ports.nextElement();
+            if (currentPort.getPortType() == CommPortIdentifier.PORT_SERIAL)
+                portMap.put(currentPort.getName(), currentPort);
+        }
+		
+		return portMap;
+    }
+	
+	/*
+	 * connect(CommPortIdentifier Port)
+	 * 
+	 * Estabelece uma ligação através da porta série do argumento CommPortIdentifier Port.  
+	 * 
+	 */
+	public SerialPort connect(CommPortIdentifier Port)
+    {
+       
+        CommPort commPort = null;
+        SerialPort serialPort = null;
+        
+        try
+        {
+            commPort = Port.open("COM4", TIMEOUT); 				//A partir de CommPortIdentifier obtém-se CommPort
+            serialPort = (SerialPort)commPort;					//Cast de CommPort para SerialPort
+            serialPort.setSerialPortParams(115200,SerialPort.DATABITS_8,SerialPort.STOPBITS_1,SerialPort.PARITY_NONE);
+
+        }
+        catch (PortInUseException e)
+        {
+        	System.out.println("A porta "  + Port.getName() +  " está a ser utilizada.");
+        }
+        catch (Exception e)
+        {
+        	System.err.println("Não é possível abrir " + Port.getName() + ".");
+            e.printStackTrace();
+        }
+        
+        return serialPort;
+    }
+	
+	/*
+	 * initIOStream(SerialPort serialPort)
+	 * 
+	 * Inicializa canais de IO nas variáveis globais in e out.
+	 * 
+	 */
+	public void initIOStream(SerialPort serialPort)
+    {
+        try {
+            in = serialPort.getInputStream();
+            out = serialPort.getOutputStream();
+        }
+        catch (IOException e) {
+        	System.out.println("Não é possível abrir canais de IO.");
+        }
+    }
+	
+	
+	/*
+	 * initListener(SerialPort serialPort)
+	 * 
+	 * Inicializa o Event Listener da classe SerialPort, evento que está permanentemente à escuta de
+	 * novas transmissões de dados para serem efectuadas. Evita polling.
+	 * 
+	 */
+	public void initListener(SerialPort serialPort)
+    {
+        try
+        {
+            serialPort.addEventListener(this);					//addEventListener(SerialPortEventListener lsnr)
+            serialPort.notifyOnDataAvailable(true);				//SerialPortEventListener é uma interface
+        }
+        catch (TooManyListenersException e)
+        {
+        	System.out.println("Não é possível iniciar interrupções.");
+        }
+    }
+
+    
+    /*
+     * serialEvent(SerialPortEvent evt) 
+     * 
+     * Lê um array de bytes de informação sempre que sejam transmitidos para o computador pela porta série
+     * e guarda-os na variável global bufferin de tamanho máximo 1024B.
+     *  
+     */
+	public synchronized void serialEvent(SerialPortEvent evt) 
+	{
+		if (evt.getEventType() == SerialPortEvent.DATA_AVAILABLE)	  //Verifica se o evento é transmissão de dados
+        {
+			System.out.println("Inside SerialEvent: DATA_AVAILABLE");
+            try
+            {
+            	//if(in.available() > 0)
+            	//{
+            	//TODO
+            		available = in.available();
+            		bytesRead = in.read(bufferin);
+            		
+            		System.out.printf("Data: %s - Size: %d\n", new String(bufferin), bytesRead);
+            		//in.read(bufferin, oldavailable, available);
+            		oldavailable=available;
+            		
+            	//}
+            }
+            catch (Exception e)
+            {
+            	System.err.println(e.toString());
+            }
+        }
+	}
+	
+	
+	/*
+	 * writeData(byte[] writebyte)
+	 * 
+	 * Envia um array de bytes de dados pela porta série, depois de ter sido efectuada uma ligação com sucesso.
+	 * 
+	 */
+	public void writeData(byte[] writebytes)
+    {
+        try
+        {
+            out.write(writebytes);
+            out.flush();
+        }
+        catch (Exception e)
+        {
+        	System.err.println(e.toString());
+        }
+    }
+	
+	
+    /*
+     * disconnect(SerialPort serialPort)
+     * 
+     * Fecha a ligação série da porta especificada no argumento. Remove o event listener.
+     * 
+     */
+    public synchronized void disconnect(SerialPort serialPort)
+    {
+        try
+        {
+            serialPort.removeEventListener();
+            serialPort.close();
+            in.close();
+            out.close();
+                        
+            System.out.println("Ligação fechada.");
+        }
+        catch (Exception e)
+        {
+        	System.out.println("Não é possível fechar a ligação da porta " + serialPort.getName() + ".");
+        }
+    }
+
+	public byte[] intToByteArray(int length)
+	{
+		ByteBuffer b = ByteBuffer.allocate(4);
+		b.order(ByteOrder.LITTLE_ENDIAN);
+	       
+	    b.putInt(length);
+		
+		return b.array();
+	}
+	
+}

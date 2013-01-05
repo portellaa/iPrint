@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1B785B0B1695EC4F0065FD02 /* FilesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B785B0A1695EC4F0065FD02 /* FilesTableViewController.m */; };
+		1B785B0F1695EF7D0065FD02 /* cabinet.png in Resources */ = {isa = PBXBuildFile; fileRef = 1B785B0E1695EF7D0065FD02 /* cabinet.png */; };
+		1B785B161695FB2C0065FD02 /* FileOperationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B785B151695FB2C0065FD02 /* FileOperationsViewController.m */; };
+		1B785B2016974ADF0065FD02 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B785B1F16974ADF0065FD02 /* SettingsViewController.m */; };
+		1B785B2216974DEB0065FD02 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 1B785B2116974DEB0065FD02 /* Settings.bundle */; };
 		1BF89639164343EF00929C6E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BF89638164343EF00929C6E /* UIKit.framework */; };
 		1BF8963B164343EF00929C6E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BF8963A164343EF00929C6E /* Foundation.framework */; };
 		1BF8963D164343EF00929C6E /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BF8963C164343EF00929C6E /* CoreGraphics.framework */; };
@@ -22,6 +27,15 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1B785B091695EC4F0065FD02 /* FilesTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilesTableViewController.h; sourceTree = "<group>"; };
+		1B785B0A1695EC4F0065FD02 /* FilesTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilesTableViewController.m; sourceTree = "<group>"; };
+		1B785B0E1695EF7D0065FD02 /* cabinet.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cabinet.png; sourceTree = "<group>"; };
+		1B785B141695FB2C0065FD02 /* FileOperationsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileOperationsViewController.h; sourceTree = "<group>"; };
+		1B785B151695FB2C0065FD02 /* FileOperationsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileOperationsViewController.m; sourceTree = "<group>"; };
+		1B785B17169606FA0065FD02 /* iPrint.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = iPrint.entitlements; sourceTree = "<group>"; };
+		1B785B1E16974ADF0065FD02 /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
+		1B785B1F16974ADF0065FD02 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
+		1B785B2116974DEB0065FD02 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		1BF89634164343EF00929C6E /* iPrint.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iPrint.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1BF89638164343EF00929C6E /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		1BF8963A164343EF00929C6E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -56,9 +70,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1B785B0D1695EDC40065FD02 /* images */ = {
+			isa = PBXGroup;
+			children = (
+				1B785B0E1695EF7D0065FD02 /* cabinet.png */,
+			);
+			name = images;
+			sourceTree = "<group>";
+		};
 		1BF89629164343EF00929C6E = {
 			isa = PBXGroup;
 			children = (
+				1B785B2116974DEB0065FD02 /* Settings.bundle */,
 				1BF8963E164343EF00929C6E /* iPrint */,
 				1BF89637164343EF00929C6E /* Frameworks */,
 				1BF89635164343EF00929C6E /* Products */,
@@ -86,6 +109,7 @@
 		1BF8963E164343EF00929C6E /* iPrint */ = {
 			isa = PBXGroup;
 			children = (
+				1B785B17169606FA0065FD02 /* iPrint.entitlements */,
 				1BF8966D164357D200929C6E /* SBTableAlert.h */,
 				1BF8966E164357D200929C6E /* SBTableAlert.m */,
 				1BF89647164343EF00929C6E /* AppDelegate.h */,
@@ -94,6 +118,12 @@
 				1BF89653164343EF00929C6E /* MainViewController.h */,
 				1BF89654164343F000929C6E /* MainViewController.m */,
 				1BF8963F164343EF00929C6E /* Supporting Files */,
+				1B785B091695EC4F0065FD02 /* FilesTableViewController.h */,
+				1B785B0A1695EC4F0065FD02 /* FilesTableViewController.m */,
+				1B785B141695FB2C0065FD02 /* FileOperationsViewController.h */,
+				1B785B151695FB2C0065FD02 /* FileOperationsViewController.m */,
+				1B785B1E16974ADF0065FD02 /* SettingsViewController.h */,
+				1B785B1F16974ADF0065FD02 /* SettingsViewController.m */,
 			);
 			path = iPrint;
 			sourceTree = "<group>";
@@ -101,6 +131,7 @@
 		1BF8963F164343EF00929C6E /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				1B785B0D1695EDC40065FD02 /* images */,
 				1BF89640164343EF00929C6E /* iPrint-Info.plist */,
 				1BF89641164343EF00929C6E /* InfoPlist.strings */,
 				1BF89644164343EF00929C6E /* main.m */,
@@ -168,6 +199,8 @@
 				1BF8964D164343EF00929C6E /* Default@2x.png in Resources */,
 				1BF8964F164343EF00929C6E /* Default-568h@2x.png in Resources */,
 				1BF89652164343EF00929C6E /* MainStoryboard.storyboard in Resources */,
+				1B785B0F1695EF7D0065FD02 /* cabinet.png in Resources */,
+				1B785B2216974DEB0065FD02 /* Settings.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -182,6 +215,9 @@
 				1BF89649164343EF00929C6E /* AppDelegate.m in Sources */,
 				1BF89655164343F000929C6E /* MainViewController.m in Sources */,
 				1BF8966F164357D200929C6E /* SBTableAlert.m in Sources */,
+				1B785B0B1695EC4F0065FD02 /* FilesTableViewController.m in Sources */,
+				1B785B161695FB2C0065FD02 /* FileOperationsViewController.m in Sources */,
+				1B785B2016974ADF0065FD02 /* SettingsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -258,6 +294,7 @@
 		1BF89664164343F000929C6E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = iPrint/iPrint.entitlements;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "iPrint/iPrint-Prefix.pch";
 				INFOPLIST_FILE = "iPrint/iPrint-Info.plist";
@@ -269,6 +306,7 @@
 		1BF89665164343F000929C6E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = iPrint/iPrint.entitlements;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "iPrint/iPrint-Prefix.pch";
 				INFOPLIST_FILE = "iPrint/iPrint-Info.plist";

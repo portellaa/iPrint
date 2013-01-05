@@ -1,0 +1,24 @@
+import gnu.io.*;
+import java.util.*;
+import java.io.*;
+import java.nio.*;
+
+public class SerialCom implements SerialPortEventListener
+{
+	private static final int TIMEOUT = 2000;
+	private InputStream in = null;
+    private OutputStream out = null;
+    private byte[] bufferin = new byte[64];							//Buffer que contém as leituras de dados vindos do uC
+    private int available=1, oldavailable=0,i;
+    
+    private int bytesRead;
+    
+	public static void main(String[] args) throws Exception
+	{
+		SerialCom main = new SerialCom();
+		int length=0;
+		byte[] lengthbyte;
+		
+		File file = new File("D:/RFID-workspace/rfid-iprint/SerialCom/VHDLTutorial.txt");
+		
+		FileInputStream fis = new FileInputStream(file);

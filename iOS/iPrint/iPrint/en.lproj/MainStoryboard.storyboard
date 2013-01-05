@@ -1,45 +1,70 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="2843" systemVersion="12C60" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="4">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="2844" systemVersion="12C60" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="3BM-Nn-PU4">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1929"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1930"/>
     </dependencies>
     <scenes>
-        <!--MainViewController-->
-        <scene sceneID="11">
+        <!--Navigation Controller - Files-->
+        <scene sceneID="fKb-tP-HHg">
             <objects>
-                <viewController title="First" id="2" userLabel="MainViewController" customClass="MainViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="16">
-                        <rect key="frame" x="0.0" y="20" width="320" height="411"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="o7X-Z4-e2b" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <navigationController definesPresentationContext="YES" id="cm8-cb-MOo" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Files" image="cabinet.png" id="18z-HJ-meP"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="zWm-1O-vZl">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="dPC-j7-TJf" kind="relationship" relationship="rootViewController" id="FpI-Wf-sbr"/>
+                    </connections>
+                </navigationController>
+            </objects>
+            <point key="canvasLocation" x="417" y="-477"/>
+        </scene>
+        <!--Files Table View Controller - Files-->
+        <scene sceneID="4Kj-p2-Qfi">
+            <objects>
+                <tableViewController title="Files" id="dPC-j7-TJf" customClass="FilesTableViewController" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="daM-nv-f5r">
+                        <rect key="frame" x="0.0" y="64" width="320" height="367"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ffd-4h-SOO">
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                <state key="normal" title="Select File">
-                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <state key="highlighted">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="FileCell" id="AIO-hP-t6v">
+                                <rect key="frame" x="0.0" y="22" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                    <rect key="frame" x="0.0" y="0.0" width="300" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </view>
                                 <connections>
-                                    <action selector="selectFileClicked:" destination="2" eventType="touchUpInside" id="deT-Xs-HPY"/>
+                                    <segue destination="TKH-X2-7Qw" kind="push" id="cpK-mf-F6Z"/>
                                 </connections>
-                            </button>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="File Selected:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5d8-q6-9ao">
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="dPC-j7-TJf" id="LMx-SA-k6u"/>
+                            <outlet property="delegate" destination="dPC-j7-TJf" id="NI0-75-oan"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Files" id="pmg-ZG-e2e"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="tfx-xS-c4y" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="864" y="-477"/>
+        </scene>
+        <!--File Operations View Controller - File Operations-->
+        <scene sceneID="4Lf-du-3G3">
+            <objects>
+                <viewController id="TKH-X2-7Qw" customClass="FileOperationsViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="d8R-U9-mbU">
+                        <rect key="frame" x="0.0" y="64" width="320" height="367"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VB4-7a-UyC">
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="103" id="S32-89-pPy"/>
-                                    <constraint firstAttribute="height" constant="21" id="hOd-tg-AWI"/>
+                                    <constraint firstAttribute="width" constant="111" id="6bl-Ud-8Ak"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="File" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NEq-wl-YFX">
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7nc-Cr-pdw">
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal" title="Print File">
                                     <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
@@ -49,55 +74,223 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="printFileClicked:" destination="2" eventType="touchUpInside" id="VPN-04-NAm"/>
+                                    <action selector="printFileClicked:" destination="TKH-X2-7Qw" eventType="touchUpInside" id="4ra-41-gXv"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="File Selected:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5d8-q6-9ao">
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="113" id="esP-CR-8Dk"/>
+                                    <constraint firstAttribute="height" constant="21" id="zoy-0F-D1f"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Noteworthy-Bold" family="Noteworthy" pointSize="18"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="right" text="File" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NEq-wl-YFX">
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="189" id="eIm-1W-Z68"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Noteworthy-Light" family="Noteworthy" pointSize="14"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kev-1X-uk6">
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" title="Preview File">
+                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="File Type:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1Ok-RB-2Gj">
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" name="Noteworthy-Bold" family="Noteworthy" pointSize="18"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="right" text="Type" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dlU-Va-aQ1">
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" name="Noteworthy-Light" family="Noteworthy" pointSize="14"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="File Size:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L1Z-Az-sau">
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" name="Noteworthy-Bold" family="Noteworthy" pointSize="18"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="right" text="Size" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ddt-37-RYn">
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" name="Noteworthy-Light" family="Noteworthy" pointSize="14"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Creation Date:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yel-q5-ldZ">
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="123" id="69V-l0-6E4"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Noteworthy-Bold" family="Noteworthy" pointSize="18"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="right" text="Date" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ok3-zY-8kY">
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="172" id="Jy1-og-ulg"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Noteworthy-Light" family="Noteworthy" pointSize="14"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
-                        <color key="backgroundColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="5d8-q6-9ao" firstAttribute="top" secondItem="NEq-wl-YFX" secondAttribute="top" type="default" id="9Xh-iL-HiO"/>
-                            <constraint firstAttribute="bottom" secondItem="NEq-wl-YFX" secondAttribute="bottom" constant="20" symbolic="YES" type="default" id="EID-fg-ZQi"/>
-                            <constraint firstItem="Ffd-4h-SOO" firstAttribute="leading" secondItem="7nc-Cr-pdw" secondAttribute="leading" type="default" id="ElJ-cI-esx"/>
-                            <constraint firstItem="7nc-Cr-pdw" firstAttribute="trailing" secondItem="Ffd-4h-SOO" secondAttribute="trailing" type="default" id="KsU-br-zLR"/>
-                            <constraint firstItem="NEq-wl-YFX" firstAttribute="leading" secondItem="7nc-Cr-pdw" secondAttribute="leading" type="default" id="R7I-V2-iJv"/>
-                            <constraint firstItem="5d8-q6-9ao" firstAttribute="leading" secondItem="16" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="RhK-0i-yqi"/>
-                            <constraint firstItem="7nc-Cr-pdw" firstAttribute="top" secondItem="16" secondAttribute="top" constant="122" id="Y6Q-Hx-61Z"/>
-                            <constraint firstItem="Ffd-4h-SOO" firstAttribute="top" secondItem="16" secondAttribute="top" constant="55" id="Y9j-Xj-PV0"/>
-                            <constraint firstAttribute="trailing" secondItem="NEq-wl-YFX" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="b7T-8k-2r2"/>
-                            <constraint firstItem="7nc-Cr-pdw" firstAttribute="centerX" secondItem="16" secondAttribute="centerX" type="default" id="gbe-sd-t1I"/>
-                            <constraint firstAttribute="bottom" secondItem="5d8-q6-9ao" secondAttribute="bottom" constant="20" symbolic="YES" type="default" id="v8R-QB-Qkh"/>
+                            <constraint firstAttribute="trailing" secondItem="NEq-wl-YFX" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="3UX-ME-DyW"/>
+                            <constraint firstItem="dlU-Va-aQ1" firstAttribute="leading" secondItem="NEq-wl-YFX" secondAttribute="leading" type="default" id="42I-M5-uzC"/>
+                            <constraint firstItem="1Ok-RB-2Gj" firstAttribute="top" secondItem="NEq-wl-YFX" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="55I-IM-riu"/>
+                            <constraint firstItem="1Ok-RB-2Gj" firstAttribute="top" secondItem="5d8-q6-9ao" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="5Nr-dd-LqH"/>
+                            <constraint firstItem="1Ok-RB-2Gj" firstAttribute="leading" secondItem="5d8-q6-9ao" secondAttribute="leading" type="default" id="AZi-OW-nfp"/>
+                            <constraint firstAttribute="trailing" secondItem="ok3-zY-8kY" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="InF-G8-E0b"/>
+                            <constraint firstItem="1Ok-RB-2Gj" firstAttribute="trailing" secondItem="5d8-q6-9ao" secondAttribute="trailing" type="default" id="K7J-vs-Et5"/>
+                            <constraint firstItem="kev-1X-uk6" firstAttribute="leading" secondItem="d8R-U9-mbU" secondAttribute="leading" constant="30" id="KnV-X2-Ztw"/>
+                            <constraint firstItem="dlU-Va-aQ1" firstAttribute="leading" secondItem="Ddt-37-RYn" secondAttribute="leading" type="default" id="MbV-oB-OiY"/>
+                            <constraint firstAttribute="bottom" secondItem="VB4-7a-UyC" secondAttribute="bottom" constant="20" symbolic="YES" type="default" id="Pr7-O0-h5o"/>
+                            <constraint firstItem="ok3-zY-8kY" firstAttribute="bottom" secondItem="Yel-q5-ldZ" secondAttribute="bottom" type="default" id="V48-9d-CpQ"/>
+                            <constraint firstItem="L1Z-Az-sau" firstAttribute="leading" secondItem="Yel-q5-ldZ" secondAttribute="leading" type="default" id="VqP-nQ-uvs"/>
+                            <constraint firstItem="L1Z-Az-sau" firstAttribute="leading" secondItem="1Ok-RB-2Gj" secondAttribute="leading" type="default" id="W1y-Ik-BRa"/>
+                            <constraint firstItem="5d8-q6-9ao" firstAttribute="top" secondItem="d8R-U9-mbU" secondAttribute="top" constant="20" symbolic="YES" type="default" id="Z5M-KJ-1sn"/>
+                            <constraint firstItem="Yel-q5-ldZ" firstAttribute="top" secondItem="L1Z-Az-sau" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="afP-x1-wWe"/>
+                            <constraint firstItem="Ddt-37-RYn" firstAttribute="top" secondItem="1Ok-RB-2Gj" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="bxG-Qf-AyT"/>
+                            <constraint firstItem="L1Z-Az-sau" firstAttribute="trailing" secondItem="1Ok-RB-2Gj" secondAttribute="trailing" type="default" id="c40-na-Ceo"/>
+                            <constraint firstAttribute="bottom" secondItem="kev-1X-uk6" secondAttribute="bottom" constant="20" symbolic="YES" type="default" id="dKm-Ah-1Wf"/>
+                            <constraint firstItem="ok3-zY-8kY" firstAttribute="top" secondItem="Ddt-37-RYn" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="jJD-Lq-Gad"/>
+                            <constraint firstItem="5d8-q6-9ao" firstAttribute="leading" secondItem="d8R-U9-mbU" secondAttribute="leading" constant="12" id="jv1-kV-Ycn"/>
+                            <constraint firstItem="dlU-Va-aQ1" firstAttribute="top" secondItem="5d8-q6-9ao" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="lZa-Nq-pfh"/>
+                            <constraint firstAttribute="trailing" secondItem="Ddt-37-RYn" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="pMf-Q5-8sX"/>
+                            <constraint firstAttribute="trailing" secondItem="VB4-7a-UyC" secondAttribute="trailing" constant="30" id="rVu-SI-Mxe"/>
+                            <constraint firstItem="L1Z-Az-sau" firstAttribute="top" secondItem="dlU-Va-aQ1" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="sPd-HN-MXq"/>
+                            <constraint firstItem="Yel-q5-ldZ" firstAttribute="top" secondItem="Ddt-37-RYn" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="t0l-2h-g50"/>
+                            <constraint firstAttribute="trailing" secondItem="dlU-Va-aQ1" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="woB-mS-XPu"/>
+                            <constraint firstItem="L1Z-Az-sau" firstAttribute="top" secondItem="1Ok-RB-2Gj" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="yJB-zL-rLF"/>
+                            <constraint firstItem="NEq-wl-YFX" firstAttribute="top" secondItem="d8R-U9-mbU" secondAttribute="top" constant="20" symbolic="YES" type="default" id="ywJ-Vn-BA0"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Send File" id="7"/>
+                    <navigationItem key="navigationItem" title="File Operations" id="dij-bu-Xm0"/>
                     <connections>
-                        <outlet property="fileSelectedLabel" destination="5d8-q6-9ao" id="SOJ-pU-D2A"/>
-                        <outlet property="fileSelectedName" destination="NEq-wl-YFX" id="CLq-4U-EzX"/>
-                        <outlet property="printFileBtn" destination="7nc-Cr-pdw" id="gOa-xx-p4Q"/>
+                        <outlet property="creationdateLabel" destination="ok3-zY-8kY" id="mfX-Fk-Mt7"/>
+                        <outlet property="filenameLabel" destination="NEq-wl-YFX" id="SVe-bp-43q"/>
+                        <outlet property="filesizeLabel" destination="Ddt-37-RYn" id="Ytz-1q-OdC"/>
+                        <outlet property="filetypeLabel" destination="dlU-Va-aQ1" id="50N-Q9-cxT"/>
                     </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="10" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="1Bd-Oo-s5r" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="653" y="-138"/>
+            <point key="canvasLocation" x="1317" y="-477"/>
         </scene>
         <!--Tab Bar Controller-->
-        <scene sceneID="15">
+        <scene sceneID="OoK-ZQ-36b">
             <objects>
-                <tabBarController id="4" sceneMemberID="viewController">
-                    <nil key="simulatedBottomBarMetrics"/>
-                    <tabBar key="tabBar" contentMode="scaleToFill" id="5">
-                        <rect key="frame" x="0.0" y="431" width="320" height="49"/>
+                <tabBarController definesPresentationContext="YES" id="3BM-Nn-PU4" sceneMemberID="viewController">
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                    <tabBar key="tabBar" contentMode="scaleToFill" id="XSj-fG-ei5">
+                        <rect key="frame" x="129" y="330" width="163" height="49"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </tabBar>
                     <connections>
-                        <segue destination="2" kind="relationship" relationship="viewControllers" id="26"/>
+                        <segue destination="cm8-cb-MOo" kind="relationship" relationship="viewControllers" id="4Gw-jb-Igs"/>
+                        <segue destination="lhJ-np-EOz" kind="relationship" relationship="viewControllers" id="vxn-4m-Hmr"/>
                     </connections>
                 </tabBarController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="14" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="F2f-sj-9Jy" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="132" y="180"/>
+            <point key="canvasLocation" x="-22" y="-61"/>
+        </scene>
+        <!--Navigation Controller - Settings-->
+        <scene sceneID="0f0-9F-QaV">
+            <objects>
+                <navigationController definesPresentationContext="YES" id="lhJ-np-EOz" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Settings" id="sRe-Dr-Xi3"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Syo-Dj-gph">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="9TI-jX-WYt" kind="relationship" relationship="rootViewController" id="8Nu-uM-nKn"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="H0o-Fm-IkH" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="417" y="187"/>
+        </scene>
+        <!--Table View Controller - Settings-->
+        <scene sceneID="M66-kd-AP1">
+            <objects>
+                <tableViewController id="9TI-jX-WYt" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="singleLineEtched" allowsSelectionDuringEditing="YES" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="xcM-qU-n31">
+                        <rect key="frame" x="0.0" y="64" width="320" height="367"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="vZT-X8-R6G">
+                                <rect key="frame" x="0.0" y="46" width="320" height="46"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                    <rect key="frame" x="10" y="1" width="300" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </view>
+                            </tableViewCell>
+                        </prototypes>
+                        <sections/>
+                        <connections>
+                            <outlet property="dataSource" destination="9TI-jX-WYt" id="4ML-aU-jgI"/>
+                            <outlet property="delegate" destination="9TI-jX-WYt" id="clV-YY-zjo"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Settings" id="9Jg-i8-Sxx"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="e5y-r4-tEJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="882" y="187"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="dNI-8f-dxH">
+            <objects>
+                <viewController id="uqk-LK-hRw" sceneMemberID="viewController">
+                    <view key="view" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="vHy-cO-fyF">
+                        <rect key="frame" x="0.0" y="20" width="320" height="460"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <toolbarItems/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="KLU-xI-xh2" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
         </scene>
     </scenes>
+    <resources>
+        <image name="cabinet.png" width="16" height="16"/>
+    </resources>
+    <classes>
+        <class className="FileOperationsViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FileOperationsViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="printFileClicked:"/>
+                <relationship kind="outlet" name="creationdateLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="filenameLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="filesizeLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="filetypeLabel" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="FilesTableViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FilesTableViewController.h"/>
+        </class>
+        <class className="NSLayoutConstraint" superclassName="NSObject">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
