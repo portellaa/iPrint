@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1B19A5131699963400CDE1AE /* QuickLook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B19A5121699963400CDE1AE /* QuickLook.framework */; };
+		1B48B11516999BBE00AC1C3C /* PreviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B48B11416999BBE00AC1C3C /* PreviewViewController.m */; };
 		1B785B0B1695EC4F0065FD02 /* FilesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B785B0A1695EC4F0065FD02 /* FilesTableViewController.m */; };
 		1B785B0F1695EF7D0065FD02 /* cabinet.png in Resources */ = {isa = PBXBuildFile; fileRef = 1B785B0E1695EF7D0065FD02 /* cabinet.png */; };
 		1B785B161695FB2C0065FD02 /* FileOperationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B785B151695FB2C0065FD02 /* FileOperationsViewController.m */; };
@@ -26,6 +28,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1B19A5121699963400CDE1AE /* QuickLook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickLook.framework; path = System/Library/Frameworks/QuickLook.framework; sourceTree = SDKROOT; };
+		1B48B11316999BBE00AC1C3C /* PreviewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreviewViewController.h; sourceTree = "<group>"; };
+		1B48B11416999BBE00AC1C3C /* PreviewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreviewViewController.m; sourceTree = "<group>"; };
 		1B785B091695EC4F0065FD02 /* FilesTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilesTableViewController.h; sourceTree = "<group>"; };
 		1B785B0A1695EC4F0065FD02 /* FilesTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilesTableViewController.m; sourceTree = "<group>"; };
 		1B785B0E1695EF7D0065FD02 /* cabinet.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cabinet.png; sourceTree = "<group>"; };
@@ -58,6 +63,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1B19A5131699963400CDE1AE /* QuickLook.framework in Frameworks */,
 				1BF89639164343EF00929C6E /* UIKit.framework in Frameworks */,
 				1BF8963B164343EF00929C6E /* Foundation.framework in Frameworks */,
 				1BF8963D164343EF00929C6E /* CoreGraphics.framework in Frameworks */,
@@ -78,6 +84,7 @@
 		1BF89629164343EF00929C6E = {
 			isa = PBXGroup;
 			children = (
+				1B19A5121699963400CDE1AE /* QuickLook.framework */,
 				1B785B2116974DEB0065FD02 /* Settings.bundle */,
 				1BF8963E164343EF00929C6E /* iPrint */,
 				1BF89637164343EF00929C6E /* Frameworks */,
@@ -134,6 +141,8 @@
 				1BF8964A164343EF00929C6E /* Default.png */,
 				1BF8964C164343EF00929C6E /* Default@2x.png */,
 				1BF8964E164343EF00929C6E /* Default-568h@2x.png */,
+				1B48B11316999BBE00AC1C3C /* PreviewViewController.h */,
+				1B48B11416999BBE00AC1C3C /* PreviewViewController.m */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -212,6 +221,7 @@
 				1B785B161695FB2C0065FD02 /* FileOperationsViewController.m in Sources */,
 				1B785B2016974ADF0065FD02 /* SettingsViewController.m in Sources */,
 				1B785B2D1698BCD30065FD02 /* MBProgressHUD.m in Sources */,
+				1B48B11516999BBE00AC1C3C /* PreviewViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

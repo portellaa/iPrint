@@ -90,6 +90,38 @@
 	[outputStream write: [fileToSendData bytes] maxLength: [fileToSendData length]];
 }
 
+- (IBAction)previewFileClicked:(id)sender {
+	
+//	QLPreviewController *preview = [[[QLPreviewController alloc] init] autorelease];
+//	
+//	[preview setDataSource:self];
+//	// Which item to preview
+//	[preview setCurrentPreviewItemIndex:0];
+//	
+//	// Push new viewcontroller, previewing the document
+//	[[self navigationController] pushViewController:preview animated:YES];
+	
+	PreviewViewController *preview = [[[PreviewViewController alloc] init] autorelease];
+	
+	[preview setDataSource:self];
+	// Which item to preview
+	[preview setCurrentPreviewItemIndex:0];
+	
+	// Push new viewcontroller, previewing the document
+	[[self navigationController] pushViewController:preview animated:YES];
+	
+}
+
+- (NSInteger) numberOfPreviewItemsInPreviewController: (QLPreviewController *) controller
+{
+	return 1;
+}
+
+- (id <QLPreviewItem>)previewController: (QLPreviewController *)controller previewItemAtIndex:(NSInteger)index
+{
+	return [NSURL fileURLWithPath:[NSString stringWithFormat:@"%@/%@", _docsDir, _filePath]];
+}
+
 - (void)stream:(NSStream *)aStream handleEvent:(NSStreamEvent)eventCode
 {
 	NSLog(@"Received stream event %i.", eventCode);

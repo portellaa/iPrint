@@ -7,9 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <QuickLook/QLPreviewController.h>
 #import "MBProgressHUD.h"
+#import "PreviewViewController.h"
 
-@interface FileOperationsViewController : UIViewController <NSStreamDelegate>
+@interface FileOperationsViewController : UIViewController <NSStreamDelegate, QLPreviewControllerDataSource>
 {
 	NSInputStream *inputStream;
 	NSOutputStream *outputStream;
@@ -19,6 +21,8 @@
 @property (strong) NSString *docsDir;
 
 - (IBAction)printFileClicked:(id)sender;
+- (IBAction)previewFileClicked:(id)sender;
+
 
 @property (retain, nonatomic) IBOutlet UILabel *filenameLabel;
 @property (retain, nonatomic) IBOutlet UILabel *filetypeLabel;
