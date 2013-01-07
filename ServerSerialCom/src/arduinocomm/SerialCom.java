@@ -1,10 +1,18 @@
 package arduinocomm;
-import gnu.io.*;
+import gnu.io.CommPort;
+import gnu.io.CommPortIdentifier;
+import gnu.io.PortInUseException;
+import gnu.io.SerialPort;
+import gnu.io.SerialPortEvent;
+import gnu.io.SerialPortEventListener;
 
-import java.util.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.TooManyListenersException;
 import java.util.logging.Logger;
-import java.io.*;
-import java.nio.*;
 
 import shared.Configs;
 
@@ -21,6 +29,8 @@ public class SerialCom implements SerialPortEventListener
     
     private SerialPort serialPort = null;
     private CommPortIdentifier Port = null;
+
+	private int oldavailable;
 	
     
     public SerialCom()
@@ -175,9 +185,9 @@ public class SerialCom implements SerialPortEventListener
            		available = in.available();
            		bytesRead = in.read(bufferin);
            		
-           		//System.out.printf("Data: %s - Size: %d\n", new String(bufferin), bytesRead);
-           		//bytesRead=in.read(bufferin, oldavailable, available);
-           		//oldavailable=bytesRead;
+           		System.out.printf("Data: %s - Size: %d\n", new String(bufferin), bytesRead);
+           		bytesRead=in.read(bufferin, oldavailable, available);
+           		oldavailable=bytesRead;
             		
             }
             catch (Exception e)
@@ -231,10 +241,76 @@ public class SerialCom implements SerialPortEventListener
         }
     }
 	
-	public synchronized boolean sendData(byte[] data)
-	{
+	public boolean sendData(byte[] data, String extension, int bytesSize) throws InterruptedException
+	{	
 		int length = data.length, t = 0;
+
+		
+		LOGGER.info("Enter function sendData");
+		
+		LOGGER.info("Starting sending file info");
+		
+		writeData(new String("START_FILE_INFO").getBytes());
+		
+		while(bufferin[0] != 1)
+			Thread.sleep(10);
+		bufferin[0] = 0;
+		LOGGER.info("Received arduino ack");
+		
+		while(bufferin[0] != 49)
+			Thread.sleep(10);
+		bufferin[0] = 0;
+		LOGGER.info("Received printer ack");
+		
+		
+		LOGGER.info("Sending file info");
+		//TODO if tmpBytes > 15
+		byte[] tmpBytes = new String("E:" + extension + "-S:" + bytesSize).getBytes();
+		writeData(tmpBytes);
+		
+		while(bufferin[0] != 1)
+			Thread.sleep(10);
+		bufferin[0] = 0;
+		LOGGER.info("Received arduino ack");
+		
+		while(bufferin[0] != 49)
+			Thread.sleep(10);
+		bufferin[0] = 0;
+		LOGGER.info("Received printer ack");
+		
+		
+		LOGGER.info("Finishing sending file info");
+		
+		writeData(new String("END_FILE_INFO").getBytes());
+		
+		while(bufferin[0] != 1)
+			Thread.sleep(10);
+		bufferin[0] = 0;
+		LOGGER.info("Received arduino ack");
+		
+		while(bufferin[0] != 49)
+			Thread.sleep(10);
+		bufferin[0] = 0;
+		LOGGER.info("Received printer ack");
+		
+		
+		LOGGER.info("Starting sending file data");
+		writeData(new String("START_FILE_DATA").getBytes());
+		
+		while(bufferin[0] != 1)
+			Thread.sleep(10);
+		bufferin[0] = 0;
+		LOGGER.info("Received arduino ack");
+		
+		while(bufferin[0] != 49)
+			Thread.sleep(10);
+		bufferin[0] = 0;
+		LOGGER.info("Received printer ack");
+		
+		
+		LOGGER.info("Sending file data");
 		send = new byte[Configs.BYTES_SEND_ARDUINO];
+		length = data.length;
 		
         while(length >= Configs.BYTES_SEND_ARDUINO)
         {
@@ -245,28 +321,49 @@ public class SerialCom implements SerialPortEventListener
         	writeData(send);        	
         
         	length -= Configs.BYTES_SEND_ARDUINO;      
-        
-        	while(bufferin[0] != 49);
-        	bufferin[0] = 0;
         	
+        	LOGGER.info("Wait on while");
+        	
+        	Thread.sleep(10);
+        	
+        	while(bufferin[0] != 49) Thread.sleep(10);
+        	
+        	bufferin[0] = 0;
         }
+        
+        LOGGER.info("Finished first cycle");
       
-        /*TODO: Se o ficheiro não for múltiplo de 15 bytes, o pedaço de código abaixo é executado. O main.send é preenchido
-       			com os dados que falta enviar e zeros. Mas os dados não são enviados!
-        */
+        send = new byte[Configs.BYTES_SEND_ARDUINO];
         if(length !=0)
         {
         	for(int i = 0; i < length; i++)
         		send[i] = data[i+t];
         	
-        	for(int i = length; i < Configs.BYTES_SEND_ARDUINO; i++)
-        		send[i] = 0;
+//        	for(int i = length; i < Configs.BYTES_SEND_ARDUINO; i++)
+//        		send[i] = 0;
      	            	
         	writeData(send);
         }
         
-        while(bufferin[0] != 49);
+        while(bufferin[0] != 49) Thread.sleep(1);
     	bufferin[0] = 0;
+    	
+    	LOGGER.info("Finished second cycle");
+    	
+    	
+    	LOGGER.info("Finishing sending file data");
+    	
+    	writeData(new String("END_FILE_DATA").getBytes());
+    	
+    	while(bufferin[0] != 1)
+			Thread.sleep(10);
+		bufferin[0] = 0;
+		LOGGER.info("Received arduino ack");
+		
+		while(bufferin[0] != 49)
+			Thread.sleep(10);
+		bufferin[0] = 0;
+		LOGGER.info("Received printer ack");
     	
     	return true;
 	}

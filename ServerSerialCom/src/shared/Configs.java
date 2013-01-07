@@ -9,6 +9,6 @@ public class Configs {
 	public static final int BYTES_SEND_ARDUINO = 15;
 	public static final int TIMEOUT = 2000;
 	public static final String ARDUINO_WIN_PORT = "COM7";				//TODO check port
-	public static final String ARDUINO_MAC_PORT = "/dev/ttyxxx";		//TODO complete port
+	public static final String ARDUINO_MAC_PORT = "/dev/tty.usbmodem621";		//TODO complete port
 	
 }

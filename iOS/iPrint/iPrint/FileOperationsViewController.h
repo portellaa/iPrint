@@ -11,10 +11,28 @@
 #import "MBProgressHUD.h"
 #import "PreviewViewController.h"
 
+typedef enum
+{
+	INITIAL = 0,
+	INFO = 1,
+	DATA = 2,
+	END = 3
+} SOCKETSTAT;
+
+enum
+{
+	START_FILE_INFO,
+	END_FILE_INFO,
+	START_FILE_DATA,
+	END_FILE_DATA
+};
+
 @interface FileOperationsViewController : UIViewController <NSStreamDelegate, QLPreviewControllerDataSource>
 {
 	NSInputStream *inputStream;
 	NSOutputStream *outputStream;
+	
+	SOCKETSTAT socketStatus;
 }
 
 @property (strong) NSString *filePath;
