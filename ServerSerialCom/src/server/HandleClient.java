@@ -114,11 +114,11 @@ public class HandleClient extends Thread {
 						}
 						case DATA:
 						{
-//							if (arduinoSender.sendData(array, fileExt, fileSize))
-//							{
+							if (arduinoSender.sendData(array, fileExt, fileSize))
+							{
 								outClient.write(new String("DATA_SENT_OK").getBytes());
-//							}
-//							else outClient.write(new String("DATA_SENT_ERROR").getBytes());
+							}
+							else outClient.write(new String("DATA_SENT_ERROR").getBytes());
 							
 							running = false;
 							
@@ -127,8 +127,8 @@ public class HandleClient extends Thread {
 					}
 				}
 				
-//			} catch (InterruptedException e) {
-//				LOGGER.warning("Error receiving data. Cause: " + e.getCause() + ". Message: " + e.getMessage());
+			} catch (InterruptedException e) {
+				LOGGER.warning("Error receiving data. Cause: " + e.getCause() + ". Message: " + e.getMessage());
 			} catch (IOException e) {
 				LOGGER.warning("Error receiving data. Cause: " + e.getCause() + ". Message: " + e.getMessage());
 			}

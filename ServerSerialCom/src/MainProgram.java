@@ -19,8 +19,8 @@ public class MainProgram {
 			arduinoSender = new SerialCom();
 			
 			//TODO uncoment to work
-//			if (!arduinoSender.initialize())
-//				return;
+			if (!arduinoSender.initialize())
+				return;
 			
 			server = new TCPServer(arduinoSender);
 			server.start();

@@ -252,7 +252,7 @@ public class SerialCom implements SerialPortEventListener
 		
 		writeData(new String("START_FILE_INFO").getBytes());
 		
-		while(bufferin[0] != 1)
+		while(bufferin[0] != 49)
 			Thread.sleep(10);
 		bufferin[0] = 0;
 		LOGGER.info("Received arduino ack");
@@ -262,13 +262,14 @@ public class SerialCom implements SerialPortEventListener
 		bufferin[0] = 0;
 		LOGGER.info("Received printer ack");
 		
+		Thread.sleep(10);
 		
 		LOGGER.info("Sending file info");
 		//TODO if tmpBytes > 15
 		byte[] tmpBytes = new String("E:" + extension + "-S:" + bytesSize).getBytes();
 		writeData(tmpBytes);
 		
-		while(bufferin[0] != 1)
+		while(bufferin[0] != 49)
 			Thread.sleep(10);
 		bufferin[0] = 0;
 		LOGGER.info("Received arduino ack");
@@ -278,12 +279,13 @@ public class SerialCom implements SerialPortEventListener
 		bufferin[0] = 0;
 		LOGGER.info("Received printer ack");
 		
+		Thread.sleep(10);
 		
 		LOGGER.info("Finishing sending file info");
 		
 		writeData(new String("END_FILE_INFO").getBytes());
 		
-		while(bufferin[0] != 1)
+		while(bufferin[0] != 49)
 			Thread.sleep(10);
 		bufferin[0] = 0;
 		LOGGER.info("Received arduino ack");
@@ -293,11 +295,12 @@ public class SerialCom implements SerialPortEventListener
 		bufferin[0] = 0;
 		LOGGER.info("Received printer ack");
 		
+		Thread.sleep(10);
 		
 		LOGGER.info("Starting sending file data");
 		writeData(new String("START_FILE_DATA").getBytes());
 		
-		while(bufferin[0] != 1)
+		while(bufferin[0] != 49)
 			Thread.sleep(10);
 		bufferin[0] = 0;
 		LOGGER.info("Received arduino ack");
@@ -307,6 +310,7 @@ public class SerialCom implements SerialPortEventListener
 		bufferin[0] = 0;
 		LOGGER.info("Received printer ack");
 		
+		Thread.sleep(10);
 		
 		LOGGER.info("Sending file data");
 		send = new byte[Configs.BYTES_SEND_ARDUINO];
@@ -355,15 +359,15 @@ public class SerialCom implements SerialPortEventListener
     	
     	writeData(new String("END_FILE_DATA").getBytes());
     	
-    	while(bufferin[0] != 1)
+    	while(bufferin[0] != 49)
 			Thread.sleep(10);
 		bufferin[0] = 0;
 		LOGGER.info("Received arduino ack");
 		
-		while(bufferin[0] != 49)
-			Thread.sleep(10);
-		bufferin[0] = 0;
-		LOGGER.info("Received printer ack");
+//		while(bufferin[0] != 49)
+//			Thread.sleep(10);
+//		bufferin[0] = 0;
+//		LOGGER.info("Received printer ack");
     	
     	return true;
 	}

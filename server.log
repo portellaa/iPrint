@@ -1,48 +1,54 @@
-Jan 7, 2013 6:23:37 PM arduinocomm.SerialCom <init>
+Jan 8, 2013 5:23:04 PM arduinocomm.SerialCom <init>
 INFO: Instanciating SerialCom.
-Jan 7, 2013 6:23:38 PM arduinocomm.SerialCom <init>
+Jan 8, 2013 5:23:04 PM arduinocomm.SerialCom <init>
 INFO: Running operating system: Mac OS X
-Jan 7, 2013 6:23:38 PM arduinocomm.SerialCom <init>
+Jan 8, 2013 5:23:04 PM arduinocomm.SerialCom <init>
 INFO: OS X detected.
-Jan 7, 2013 6:23:38 PM arduinocomm.SerialCom <init>
+Jan 8, 2013 5:23:04 PM arduinocomm.SerialCom <init>
 INFO: Instanciated SerialCom.
-Jan 7, 2013 6:23:38 PM server.TCPServer <init>
+Jan 8, 2013 5:23:04 PM server.TCPServer <init>
 INFO: Initializing TCP Server
-Jan 7, 2013 6:23:38 PM server.TCPServer <init>
+Jan 8, 2013 5:23:04 PM server.TCPServer <init>
 INFO: Initialized TCP Server.
-Jan 7, 2013 6:23:38 PM server.TCPServer run
+Jan 8, 2013 5:23:04 PM server.TCPServer run
 INFO: Started TCP Server
-Jan 7, 2013 6:23:43 PM server.TCPServer run
+Jan 8, 2013 5:23:10 PM server.TCPServer run
 INFO: Received connection from 0:0:0:0:0:0:0:1%0
-Jan 7, 2013 6:23:43 PM server.HandleClient <init>
+Jan 8, 2013 5:23:10 PM server.HandleClient <init>
 INFO: Initializing HandleClient to client IP: 0:0:0:0:0:0:0:1%0
-Jan 7, 2013 6:23:43 PM server.HandleClient <init>
+Jan 8, 2013 5:23:10 PM server.HandleClient <init>
 INFO: Opening streams
-Jan 7, 2013 6:23:43 PM server.HandleClient <init>
+Jan 8, 2013 5:23:10 PM server.HandleClient <init>
 INFO: Opened streams
-Jan 7, 2013 6:23:43 PM server.HandleClient <init>
+Jan 8, 2013 5:23:10 PM server.HandleClient <init>
 INFO: Initialized HandleClient to client IP: 0:0:0:0:0:0:0:1%0
-Jan 7, 2013 6:23:43 PM server.HandleClient run
+Jan 8, 2013 5:23:10 PM server.HandleClient run
 INFO: Started HandleClient to client IP: 0:0:0:0:0:0:0:1%0
-Jan 7, 2013 6:23:43 PM server.HandleClient run
+Jan 8, 2013 5:23:10 PM server.HandleClient run
 INFO: Running: true. Bytes available: 15
-Jan 7, 2013 6:23:43 PM server.HandleClient run
+Jan 8, 2013 5:23:10 PM server.HandleClient run
 INFO: Received START_FILE_INFO from client
-Jan 7, 2013 6:23:43 PM server.HandleClient run
-INFO: Running: true. Bytes available: 10
-Jan 7, 2013 6:23:43 PM server.HandleClient run
+Jan 8, 2013 5:23:10 PM server.HandleClient run
+INFO: Running: true. Bytes available: 11
+Jan 8, 2013 5:23:10 PM server.HandleClient run
 INFO: Running: true. Bytes available: 13
-Jan 7, 2013 6:23:43 PM server.HandleClient run
-INFO: Running: true. Bytes available: 41
-Jan 7, 2013 6:23:43 PM server.HandleClient run
-INFO: Finished HandleClient to client IP: 0:0:0:0:0:0:0:1%0
-Jan 7, 2013 6:23:53 PM server.TCPServer run
-INFO: Server socket timeout
-Jan 7, 2013 6:24:03 PM server.TCPServer run
-INFO: Server socket timeout
-Jan 7, 2013 6:24:13 PM server.TCPServer run
-INFO: Server socket timeout
-Jan 7, 2013 6:24:23 PM server.TCPServer run
-INFO: Server socket timeout
-Jan 7, 2013 6:24:33 PM server.TCPServer run
-INFO: Server socket timeout
+Jan 8, 2013 5:23:10 PM server.HandleClient run
+INFO: Running: true. Bytes available: 192
+Jan 8, 2013 5:23:10 PM arduinocomm.SerialCom sendData
+INFO: Enter function sendData
+Jan 8, 2013 5:23:10 PM arduinocomm.SerialCom sendData
+INFO: Starting sending file info
+Jan 8, 2013 5:23:12 PM arduinocomm.SerialCom sendData
+INFO: Received arduino ack
+Jan 8, 2013 5:23:14 PM arduinocomm.SerialCom sendData
+INFO: Received printer ack
+Jan 8, 2013 5:23:14 PM arduinocomm.SerialCom sendData
+INFO: Sending file info
+Jan 8, 2013 5:23:16 PM arduinocomm.SerialCom sendData
+INFO: Received arduino ack
+Jan 8, 2013 5:23:17 PM arduinocomm.SerialCom sendData
+INFO: Received printer ack
+Jan 8, 2013 5:23:17 PM arduinocomm.SerialCom sendData
+INFO: Finishing sending file info
+Jan 8, 2013 5:23:19 PM arduinocomm.SerialCom sendData
+INFO: Received arduino ack
