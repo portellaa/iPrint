@@ -46,6 +46,8 @@
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
+	<key>UIFileSharingEnabled</key>
+	<true/>
 	<key>LSItemContentTypes</key>
 	<array>
 		<string>public.content</string>

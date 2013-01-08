@@ -67,11 +67,6 @@
 	
 	socketStatus = INITIAL;
 	
-	MBProgressHUD *printAnimation = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-	[printAnimation setMode:MBProgressHUDModeIndeterminate];
-	
-	[printAnimation setLabelText:@"Printing..."];
-	
 	[self sendFileToServer];
 }
 
@@ -107,14 +102,14 @@
     inputStream = (NSInputStream *)readStream;
     outputStream = (NSOutputStream *)writeStream;
 	
+	[inputStream setDelegate: self];
+	[outputStream setDelegate: self];
+	
 	[inputStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
 	[outputStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
 	
 	[inputStream open];
 	[outputStream open];
-	
-	[inputStream setDelegate: self];
-	[outputStream setDelegate: self];
 	
 	NSData *message = [[NSString stringWithUTF8String:"START_FILE_INFO"] dataUsingEncoding:NSUTF8StringEncoding];
 
@@ -126,6 +121,14 @@
 	NSLog(@"Received stream event %i.", eventCode);
 	
 	switch (eventCode) {
+			
+		case NSStreamEventNone:
+		{
+			NSLog(@"Event None");
+			[self showAlertWithTitle:@"Socket" andMessage:@"Could not connect to server."];
+			
+			break;
+		}
 		case NSStreamEventHasBytesAvailable:
 			
 			NSLog(@"Data available on socket");
@@ -137,6 +140,11 @@
 						NSLog(@"INITIAL Status");
 						if ([self readAckFromInputStrem:inputStream] == 1)
 						{
+							MBProgressHUD *printAnimation = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+							[printAnimation setMode:MBProgressHUDModeIndeterminate];
+							
+							[printAnimation setLabelText:@"Printing..."];
+							
 							NSDictionary *fileAttributes = [[NSFileManager defaultManager] attributesOfItemAtPath:[NSString stringWithFormat:@"%@/%@", _docsDir, _filePath ] error:nil];
 							NSData *message = [[NSString stringWithFormat:@"E:%@-S:%llu", [[_filePath componentsSeparatedByString:@"."] objectAtIndex:1], [fileAttributes fileSize]] dataUsingEncoding:NSUTF8StringEncoding];
 							[outputStream write: [message bytes] maxLength: [message length]];
@@ -192,6 +200,37 @@
 					}
 				}
 			}
+			
+			break;
+			
+		case NSStreamEventErrorOccurred: {
+			
+			NSLog(@"Error Occurred");
+			
+			[inputStream close];
+			[inputStream removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+			[inputStream release];
+			
+			[outputStream close];
+			[outputStream removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+			[outputStream release];
+
+			if (socketStatus == INITIAL)
+				[self showAlertWithTitle:@"Socket" andMessage:@"Error openning socket."];
+			else if (socketStatus == END)
+				[self showAlertWithTitle:@"Print" andMessage:@"Error printing file."];
+			else
+				[self showAlertWithTitle:@"Socket" andMessage:@"Error sending information to server."];
+			
+			break;
+		}
+			
+		case NSStreamEventEndEncountered:
+			
+			[aStream close];
+			[aStream removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+			[aStream release];
+			aStream = nil;
 			
 			break;
 			
