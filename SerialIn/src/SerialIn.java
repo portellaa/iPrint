@@ -5,7 +5,7 @@ import gnu.io.SerialPort;
 import gnu.io.SerialPortEvent;
 import gnu.io.SerialPortEventListener;
 
-import java.awt.TextArea;
+import java.awt.print.PrinterJob;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
@@ -37,12 +37,12 @@ public class SerialIn implements SerialPortEventListener
     private static byte [] fileStream = new byte[15];
     private static byte [] printStream = new byte[15];
     private static long beginTime = 0, elapsedTime = 0;
-    
+        
 	public static void main(String[] args) throws Exception
 	{
 		
 		SerialIn main = new SerialIn();
-			/*        
+			  
 		HashMap<String, CommPortIdentifier> portMap = null;				//HashMap com as portas série do tipo
 																		//CommPortIdentifier
 		SerialPort serialPort = null;
@@ -79,8 +79,8 @@ public class SerialIn implements SerialPortEventListener
 			Thread.sleep(1);
 
         String[] fileInfo = new String(fileStream, 0, DataRead).split("-");
-        fileExt = fileInfo[0].split(":")[1];
-		fileSize = Integer.parseInt(fileInfo[1].split(":")[1].substring(0, fileInfo[1].split(":")[1].length() - 1));
+        fileExt = fileInfo[0].split(":")[1];      	
+        fileSize = Integer.parseInt(fileInfo[1].split(":")[1].substring(0, fileInfo[1].split(":")[1].length() - 1));
 		
 		System.out.printf("File Info:\nExt: %s\nSize: %d\n", fileExt, fileSize);
     	
@@ -147,39 +147,48 @@ public class SerialIn implements SerialPortEventListener
                    
         System.out.println(new String(printStream, 0, fileSize));
         
-*/
+
         try {  
         	//locate printer  
         	
-        	FileInputStream is = new FileInputStream("/Users/meligaletiko/Desktop/Teste.txt");
-        	PrintService printService = PrintServiceLookup.lookupDefaultPrintService();  
-        	System.out.println("Printer online: "+ printService);  
-//        	InputStream is = new ByteArrayInputStream(textStream);
-        	//create a print job  
-        	/*DocPrintJob job = printService.createPrintJob();
+        	//FileInputStream is = new FileInputStream("D:/RFID-workspace/rfid-iprint/SerialCom/asd.pdf");
+        	InputStream is = new ByteArrayInputStream(printStream,1,fileSize);
+        	
+    	    if(fileExt.equalsIgnoreCase("PDF"))
+    	    {
+            	PrintPdf printPDFFile = new PrintPdf(is, "A imprimir PDF...");
+        		printPDFFile.print();
+        	}
+    	    else if(fileExt.equalsIgnoreCase("TXT"))
+    	    {
+    	    	TextPrint tp = new TextPrint();
+    	    	tp.startPrint(is, fileSize);
+    	    }
+    	    else
+        	{
+        		PrintService printService = PrintServiceLookup.lookupDefaultPrintService();  
+        		System.out.println("Printer online: "+ printService);  
+
+        		//create a print job  
+        		DocPrintJob job = printService.createPrintJob();  
         	        	
-        	//define the format of print document  
-        	DocFlavor flavor = DocFlavor.INPUT_STREAM.AUTOSENSE;  
-        	 
-        	PrintRequestAttributeSet aset = new HashPrintRequestAttributeSet();
+	        	//define the format of print document  
+	        	DocFlavor flavor = DocFlavor.INPUT_STREAM.AUTOSENSE;  
+	        	 
+	        	PrintRequestAttributeSet aset = new HashPrintRequestAttributeSet();
+	        	
+	        	
+	        	aset.add(new Copies(1));
+	        	aset.add(Sides.ONE_SIDED);
         	
-        	aset.add(new Copies(2));
-        	aset.add(Sides.ONE_SIDED);
-        	
-        	//print the data  
-        	Doc doc = new SimpleDoc(is, flavor, null);  
-        	job.print(doc, aset);  
-        	
+	        	//print the data  
+	        	Doc doc = new SimpleDoc(is, flavor, null);  
+	        	job.print(doc, aset);  
+        	}
         	Thread.sleep(20000);
         	
         	//is.close();  
-        	System.out.println("Printing Done!!");*/
-        	
-        	String[] header = new String[1];
-        	header[0] = "Header";
-        	
-        	TextPrint tp = new TextPrint();
-        	tp.startPrint(is, 190);
+        	System.out.println("Printing Done!!");  
         	  
         	
         	
@@ -370,5 +379,7 @@ public class SerialIn implements SerialPortEventListener
     }
 
 	
+    
+    
 }
 
