@@ -1,38 +1,126 @@
-Jan 8, 2013 7:55:24 PM arduinocomm.SerialCom <init>
+Jan 10, 2013 2:46:26 PM arduinocomm.SerialCom <init>
 INFO: Instanciating SerialCom.
-Jan 8, 2013 7:55:24 PM arduinocomm.SerialCom <init>
+Jan 10, 2013 2:46:26 PM arduinocomm.SerialCom <init>
 INFO: Running operating system: Mac OS X
-Jan 8, 2013 7:55:24 PM arduinocomm.SerialCom <init>
+Jan 10, 2013 2:46:26 PM arduinocomm.SerialCom <init>
 INFO: OS X detected.
-Jan 8, 2013 7:55:24 PM arduinocomm.SerialCom <init>
+Jan 10, 2013 2:46:26 PM arduinocomm.SerialCom <init>
 INFO: Instanciated SerialCom.
-Jan 8, 2013 7:55:24 PM server.TCPServer <init>
+Jan 10, 2013 2:46:26 PM server.TCPServer <init>
 INFO: Initializing TCP Server
-Jan 8, 2013 7:55:24 PM server.TCPServer <init>
+Jan 10, 2013 2:46:26 PM server.TCPServer <init>
 INFO: Initialized TCP Server.
-Jan 8, 2013 7:55:24 PM server.TCPServer run
+Jan 10, 2013 2:46:26 PM server.TCPServer run
 INFO: Started TCP Server
-Jan 8, 2013 7:55:42 PM server.TCPServer run
-INFO: Received connection from 0:0:0:0:0:0:0:1%0
-Jan 8, 2013 7:55:42 PM server.HandleClient <init>
-INFO: Initializing HandleClient to client IP: 0:0:0:0:0:0:0:1%0
-Jan 8, 2013 7:55:42 PM server.HandleClient <init>
+Jan 10, 2013 2:46:34 PM server.TCPServer run
+INFO: Received connection from 192.168.1.2
+Jan 10, 2013 2:46:34 PM server.HandleClient <init>
+INFO: Initializing HandleClient to client IP: 192.168.1.2
+Jan 10, 2013 2:46:34 PM server.HandleClient <init>
 INFO: Opening streams
-Jan 8, 2013 7:55:42 PM server.HandleClient <init>
+Jan 10, 2013 2:46:34 PM server.HandleClient <init>
 INFO: Opened streams
-Jan 8, 2013 7:55:42 PM server.HandleClient <init>
-INFO: Initialized HandleClient to client IP: 0:0:0:0:0:0:0:1%0
-Jan 8, 2013 7:55:42 PM server.HandleClient run
-INFO: Started HandleClient to client IP: 0:0:0:0:0:0:0:1%0
-Jan 8, 2013 7:55:42 PM server.HandleClient run
+Jan 10, 2013 2:46:34 PM server.HandleClient <init>
+INFO: Initialized HandleClient to client IP: 192.168.1.2
+Jan 10, 2013 2:46:34 PM server.HandleClient run
+INFO: Started HandleClient to client IP: 192.168.1.2
+Jan 10, 2013 2:46:34 PM server.HandleClient run
 INFO: Running: true. Bytes available: 15
-Jan 8, 2013 7:55:42 PM server.HandleClient run
+Jan 10, 2013 2:46:34 PM server.HandleClient run
 INFO: Received START_FILE_INFO from client
-Jan 8, 2013 7:55:42 PM server.HandleClient run
+Jan 10, 2013 2:46:34 PM server.HandleClient run
 INFO: Running: true. Bytes available: 10
-Jan 8, 2013 7:55:42 PM server.HandleClient run
+Jan 10, 2013 2:46:34 PM server.HandleClient run
 INFO: Running: true. Bytes available: 13
-Jan 8, 2013 7:55:42 PM server.HandleClient run
-INFO: Running: true. Bytes available: 41
-Jan 8, 2013 7:55:42 PM server.HandleClient run
-INFO: Finished HandleClient to client IP: 0:0:0:0:0:0:0:1%0
+Jan 10, 2013 2:46:35 PM server.HandleClient run
+INFO: Running: true. Bytes available: 23
+Jan 10, 2013 2:46:35 PM arduinocomm.SerialCom sendData
+INFO: Enter function sendData
+Jan 10, 2013 2:46:35 PM arduinocomm.SerialCom sendData
+INFO: Starting sending file info
+Jan 10, 2013 2:46:35 PM arduinocomm.SerialCom sendCmdsAndWaitForAck
+INFO: Sending info for the 1 time(s)
+Jan 10, 2013 2:46:35 PM arduinocomm.SerialCom sendCmdsAndWaitForAck
+INFO: Waiting 0 acknowledge.
+Jan 10, 2013 2:46:35 PM arduinocomm.SerialCom sendCmdsAndWaitForAck
+INFO: 1 received
+Jan 10, 2013 2:46:35 PM arduinocomm.SerialCom sendCmdsAndWaitForAck
+INFO: Waiting 1 acknowledge.
+Jan 10, 2013 2:46:37 PM arduinocomm.SerialCom sendCmdsAndWaitForAck
+INFO: 2 received
+Jan 10, 2013 2:46:37 PM arduinocomm.SerialCom sendCmdsAndWaitForAck
+INFO: For the time 1 received 2 acks
+Jan 10, 2013 2:46:37 PM arduinocomm.SerialCom sendData
+INFO: Sending file info
+Jan 10, 2013 2:46:37 PM arduinocomm.SerialCom sendCmdsAndWaitForAck
+INFO: Sending info for the 1 time(s)
+Jan 10, 2013 2:46:37 PM arduinocomm.SerialCom sendCmdsAndWaitForAck
+INFO: Waiting 0 acknowledge.
+Jan 10, 2013 2:46:38 PM arduinocomm.SerialCom sendCmdsAndWaitForAck
+INFO: 1 received
+Jan 10, 2013 2:46:38 PM arduinocomm.SerialCom sendCmdsAndWaitForAck
+INFO: Waiting 1 acknowledge.
+Jan 10, 2013 2:46:40 PM arduinocomm.SerialCom sendCmdsAndWaitForAck
+INFO: 2 received
+Jan 10, 2013 2:46:40 PM arduinocomm.SerialCom sendCmdsAndWaitForAck
+INFO: For the time 1 received 2 acks
+Jan 10, 2013 2:46:40 PM arduinocomm.SerialCom sendData
+INFO: Finishing sending file info
+Jan 10, 2013 2:46:40 PM arduinocomm.SerialCom sendCmdsAndWaitForAck
+INFO: Sending info for the 1 time(s)
+Jan 10, 2013 2:46:40 PM arduinocomm.SerialCom sendCmdsAndWaitForAck
+INFO: Waiting 0 acknowledge.
+Jan 10, 2013 2:46:42 PM arduinocomm.SerialCom sendCmdsAndWaitForAck
+INFO: 1 received
+Jan 10, 2013 2:46:42 PM arduinocomm.SerialCom sendCmdsAndWaitForAck
+INFO: Waiting 1 acknowledge.
+Jan 10, 2013 2:46:43 PM arduinocomm.SerialCom sendCmdsAndWaitForAck
+INFO: 2 received
+Jan 10, 2013 2:46:43 PM arduinocomm.SerialCom sendCmdsAndWaitForAck
+INFO: For the time 1 received 2 acks
+Jan 10, 2013 2:46:43 PM arduinocomm.SerialCom sendData
+INFO: Starting sending file data
+Jan 10, 2013 2:46:43 PM arduinocomm.SerialCom sendCmdsAndWaitForAck
+INFO: Sending info for the 1 time(s)
+Jan 10, 2013 2:46:43 PM arduinocomm.SerialCom sendCmdsAndWaitForAck
+INFO: Waiting 0 acknowledge.
+Jan 10, 2013 2:46:45 PM arduinocomm.SerialCom sendCmdsAndWaitForAck
+INFO: 1 received
+Jan 10, 2013 2:46:45 PM arduinocomm.SerialCom sendCmdsAndWaitForAck
+INFO: Waiting 1 acknowledge.
+Jan 10, 2013 2:46:46 PM arduinocomm.SerialCom sendCmdsAndWaitForAck
+INFO: 2 received
+Jan 10, 2013 2:46:46 PM arduinocomm.SerialCom sendCmdsAndWaitForAck
+INFO: For the time 1 received 2 acks
+Jan 10, 2013 2:46:46 PM arduinocomm.SerialCom sendData
+INFO: Sending file data
+Jan 10, 2013 2:46:46 PM arduinocomm.SerialCom sendData
+INFO: Bytes to send: 23
+Jan 10, 2013 2:46:46 PM arduinocomm.SerialCom sendDataAndWaitForAck
+INFO: Sending info for the 1 time(s)
+Jan 10, 2013 2:46:48 PM arduinocomm.SerialCom sendData
+INFO: Bytes sent: 15 - bytes remaining: 8
+Jan 10, 2013 2:46:48 PM arduinocomm.SerialCom sendData
+INFO: Finished first cycle
+Jan 10, 2013 2:46:48 PM arduinocomm.SerialCom sendData
+INFO: Bytes sent: 15 - bytes remaining: 8
+Jan 10, 2013 2:46:48 PM arduinocomm.SerialCom sendDataAndWaitForAck
+INFO: Sending info for the 1 time(s)
+Jan 10, 2013 2:46:49 PM arduinocomm.SerialCom sendData
+INFO: Finished second cycle
+Jan 10, 2013 2:46:53 PM arduinocomm.SerialCom sendData
+INFO: Finishing sending file data
+Jan 10, 2013 2:46:53 PM arduinocomm.SerialCom sendCmdsAndWaitForAck
+INFO: Sending info for the 1 time(s)
+Jan 10, 2013 2:46:53 PM arduinocomm.SerialCom sendCmdsAndWaitForAck
+INFO: Waiting 0 acknowledge.
+Jan 10, 2013 2:46:54 PM arduinocomm.SerialCom sendCmdsAndWaitForAck
+INFO: 1 received
+Jan 10, 2013 2:46:54 PM arduinocomm.SerialCom sendCmdsAndWaitForAck
+INFO: Waiting 1 acknowledge.
+Jan 10, 2013 2:46:56 PM arduinocomm.SerialCom sendCmdsAndWaitForAck
+INFO: 2 received
+Jan 10, 2013 2:46:56 PM arduinocomm.SerialCom sendCmdsAndWaitForAck
+INFO: For the time 1 received 2 acks
+Jan 10, 2013 2:46:56 PM server.HandleClient run
+INFO: Finished HandleClient to client IP: 192.168.1.2

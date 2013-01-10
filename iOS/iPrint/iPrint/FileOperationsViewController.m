@@ -98,7 +98,7 @@
 {
 	CFReadStreamRef readStream;
     CFWriteStreamRef writeStream;
-    CFStreamCreatePairWithSocketToHost(NULL, (CFStringRef)@"localhost", 6969, &readStream, &writeStream);
+    CFStreamCreatePairWithSocketToHost(NULL, (CFStringRef)@"192.168.1.1", 6969, &readStream, &writeStream);
     inputStream = (NSInputStream *)readStream;
     outputStream = (NSOutputStream *)writeStream;
 	
@@ -167,7 +167,15 @@
 						NSLog(@"DATA Status");
 						if ([self readAckFromInputStrem:inputStream] == 1)
 						{
-							NSData *fileToSendData = [[NSFileManager defaultManager] contentsAtPath: [NSString stringWithFormat:@"%@/%@", _docsDir, _filePath]];
+							NSData *fileToSendData;
+							if ([[_filePath componentsSeparatedByString:@"."] objectAtIndex:1] == @"TXT")
+							{
+								fileToSendData = [[NSString stringWithContentsOfFile:[NSString stringWithFormat:@"%@/%@", _docsDir, _filePath] encoding:NSUTF8StringEncoding error:NULL] dataUsingEncoding:NSUTF8StringEncoding];
+							}
+							else {
+								fileToSendData = [[NSFileManager defaultManager] contentsAtPath: [NSString stringWithFormat:@"%@/%@", _docsDir, _filePath]];
+							}
+
 							[outputStream write: [fileToSendData bytes] maxLength: [fileToSendData length]];
 							
 							socketStatus = END;
@@ -187,6 +195,7 @@
 						}
 						else if ([output isEqualToString:@"DATA_SENT_ERROR"])
 						{
+							[MBProgressHUD hideHUDForView:self.view animated:YES];
 							[self showAlertWithTitle:@"Print File" andMessage:@"File not printed."];
 						}
 						

@@ -55,6 +55,17 @@ public class SerialCom implements SerialPortEventListener
 		
 		LOGGER.info("Instanciated SerialCom.");
     }
+    
+    public boolean tryInitialize()
+    {
+    	if (Port == null)
+		{
+			LOGGER.warning("No arduino device connected.");
+			return false;
+		}
+    	
+    	return true;
+    }
 	
 	public boolean initialize()
 	{
@@ -65,15 +76,10 @@ public class SerialCom implements SerialPortEventListener
 		}
 		
 		serialPort = connect(Port);
-		initIOStream(serialPort);
-		initListener(serialPort);
+		initIOStream();
+		initListener();
 		
 		return true;
-	}
-	
-	public void close()
-	{
-		disconnect(serialPort);
 	}
 	
 	/*
@@ -136,7 +142,7 @@ public class SerialCom implements SerialPortEventListener
 	 * Inicializa canais de IO nas variáveis globais in e out.
 	 * 
 	 */
-	private void initIOStream(SerialPort serialPort)
+	private void initIOStream()
     {
         try {
             in = serialPort.getInputStream();
@@ -148,14 +154,14 @@ public class SerialCom implements SerialPortEventListener
     }
 	
 	
-	/*
+	/* 
 	 * initListener(SerialPort serialPort)
 	 * 
 	 * Inicializa o Event Listener da classe SerialPort, evento que está permanentemente à escuta de
 	 * novas transmissões de dados para serem efectuadas. Evita polling.
 	 * 
 	 */
-	private void initListener(SerialPort serialPort)
+	private void initListener()
     {
         try
         {
@@ -224,7 +230,7 @@ public class SerialCom implements SerialPortEventListener
      * Fecha a ligação série da porta especificada no argumento. Remove o event listener.
      * 
      */
-    private synchronized void disconnect(SerialPort serialPort)
+    public synchronized void disconnect()
     {
         try
         {
@@ -244,132 +250,174 @@ public class SerialCom implements SerialPortEventListener
 	public boolean sendData(byte[] data, String extension, int bytesSize) throws InterruptedException
 	{	
 		int length = data.length, t = 0;
-
+		extension = extension.toUpperCase();
 		
 		LOGGER.info("Enter function sendData");
 		
 		LOGGER.info("Starting sending file info");
-		
-		writeData(new String("START_FILE_INFO").getBytes());
-		
-		while(bufferin[0] != 49)
-			Thread.sleep(10);
-		bufferin[0] = 0;
-		LOGGER.info("Received arduino ack");
-		
-		while(bufferin[0] != 49)
-			Thread.sleep(10);
-		bufferin[0] = 0;
-		LOGGER.info("Received printer ack");
-		
-		Thread.sleep(10);
+		if (!sendCmdsAndWaitForAck(new String("START_FILE_INFO").getBytes()))
+			return false;
+		Thread.sleep(Configs.DELAY_PACKETS);
 		
 		LOGGER.info("Sending file info");
-		//TODO if tmpBytes > 15
-		byte[] tmpBytes = new String("E:" + extension + "-S:" + bytesSize).getBytes();
-		writeData(tmpBytes);
-		
-		while(bufferin[0] != 49)
-			Thread.sleep(10);
-		bufferin[0] = 0;
-		LOGGER.info("Received arduino ack");
-		
-		while(bufferin[0] != 49)
-			Thread.sleep(10);
-		bufferin[0] = 0;
-		LOGGER.info("Received printer ack");
-		
-		Thread.sleep(10);
+		if (!sendCmdsAndWaitForAck(new String("E:" + extension + "-S:" + bytesSize + "E").getBytes()))
+			return false;
+		Thread.sleep(Configs.DELAY_PACKETS);
 		
 		LOGGER.info("Finishing sending file info");
-		
-		writeData(new String("END_FILE_INFO").getBytes());
-		
-		while(bufferin[0] != 49)
-			Thread.sleep(10);
-		bufferin[0] = 0;
-		LOGGER.info("Received arduino ack");
-		
-		while(bufferin[0] != 49)
-			Thread.sleep(10);
-		bufferin[0] = 0;
-		LOGGER.info("Received printer ack");
-		
-		Thread.sleep(10);
+		if (!sendCmdsAndWaitForAck("END_FILE_INFO".getBytes()))
+			return false;
+		Thread.sleep(Configs.DELAY_PACKETS);
 		
 		LOGGER.info("Starting sending file data");
-		writeData(new String("START_FILE_DATA").getBytes());
-		
-		while(bufferin[0] != 49)
-			Thread.sleep(10);
-		bufferin[0] = 0;
-		LOGGER.info("Received arduino ack");
-		
-		while(bufferin[0] != 49)
-			Thread.sleep(10);
-		bufferin[0] = 0;
-		LOGGER.info("Received printer ack");
-		
-		Thread.sleep(10);
+		if (!sendCmdsAndWaitForAck(new String("START_FILE_DATA").getBytes()))
+			return false;
+		Thread.sleep(Configs.DELAY_PACKETS);
 		
 		LOGGER.info("Sending file data");
-		send = new byte[Configs.BYTES_SEND_ARDUINO];
-		length = data.length;
+		send = new byte[Configs.BYTES_SEND_ARDUINO + 1];
+		
+		LOGGER.info("Bytes to send: " + length);
 		
         while(length >= Configs.BYTES_SEND_ARDUINO)
         {
+        	send = new byte[Configs.BYTES_SEND_ARDUINO + 1];
         	for(int i = 0; i < Configs.BYTES_SEND_ARDUINO; i++)
         		send[i]=data[i+t];
         	
         	t += Configs.BYTES_SEND_ARDUINO;
-        	writeData(send);        	
+        	
+        	if (!sendDataAndWaitForAck(send))
+        		return false;
         
-        	length -= Configs.BYTES_SEND_ARDUINO;      
+        	length -= Configs.BYTES_SEND_ARDUINO;
         	
-        	LOGGER.info("Wait on while");
+        	LOGGER.info("Bytes sent: " + t + " - bytes remaining: " + length);
         	
-        	Thread.sleep(10);
-        	
-        	while(bufferin[0] != 49) Thread.sleep(10);
+        	Thread.sleep(Configs.DELAY_PACKETS);
         	
         	bufferin[0] = 0;
         }
         
         LOGGER.info("Finished first cycle");
+        
+        LOGGER.info("Bytes sent: " + t + " - bytes remaining: " + length);
       
-        send = new byte[Configs.BYTES_SEND_ARDUINO];
+        send = new byte[Configs.BYTES_SEND_ARDUINO + 1];
         if(length !=0)
         {
         	for(int i = 0; i < length; i++)
         		send[i] = data[i+t];
-        	
-//        	for(int i = length; i < Configs.BYTES_SEND_ARDUINO; i++)
-//        		send[i] = 0;
-     	            	
-        	writeData(send);
+
+        	if (!sendDataAndWaitForAck(send))
+        		return false;
         }
-        
-        while(bufferin[0] != 49) Thread.sleep(1);
-    	bufferin[0] = 0;
     	
     	LOGGER.info("Finished second cycle");
     	
+    	Thread.sleep(4000);
     	
     	LOGGER.info("Finishing sending file data");
     	
-    	writeData(new String("END_FILE_DATA").getBytes());
-    	
-    	while(bufferin[0] != 49)
-			Thread.sleep(10);
-		bufferin[0] = 0;
-		LOGGER.info("Received arduino ack");
-		
-//		while(bufferin[0] != 49)
-//			Thread.sleep(10);
-//		bufferin[0] = 0;
-//		LOGGER.info("Received printer ack");
+    	if (!sendCmdsAndWaitForAck(new String("END_FILE_DATA").getBytes()))
+    		return false; 
     	
     	return true;
+	}
+	
+	private boolean sendDataAndWaitForAck(byte[] dataBytes) throws InterruptedException
+	{
+		long startTime = 0;
+		int resentTimes = 0;
+		boolean resend = false;
+		
+		while(resentTimes < Configs.RESEND_TIMES)
+		{
+			resend = false;
+			startTime = System.currentTimeMillis();
+			
+			writeData(dataBytes);
+			resentTimes++;
+			
+			LOGGER.info("Sending info for the " + resentTimes + " time(s)");
+
+			while(bufferin[0] != 49)
+			{
+				if ((System.currentTimeMillis() - startTime) < (Configs.RESEND_TIMEOUT * 1000))
+				{
+					Thread.sleep(Configs.TIMEOUT_WAIT_ACKS);
+				}
+				else
+				{
+					resend = true;
+					break;
+				}
+			}
+			bufferin[0] = 0;
+			
+			if (!resend)
+			{
+				bufferin[0] = 0;
+				break;
+			}
+		}
+		
+		return !resend;
+	}
+	
+	private boolean sendCmdsAndWaitForAck(byte[] messageBytes) throws InterruptedException
+	{
+		long startTime = 0;
+		int resentTimes = 0;
+		int receivedAcks = 0;
+		boolean resend = false;
+		
+		while(resentTimes < Configs.RESEND_TIMES)
+		{
+			receivedAcks = 0;
+			writeData(messageBytes);
+			resentTimes++;
+			
+			LOGGER.info("Sending info for the " + resentTimes + " time(s)");
+			
+			while (receivedAcks < 2)
+			{
+				LOGGER.info("Waiting " + receivedAcks + " acknowledge.");
+				
+				resend = false;
+				startTime = System.currentTimeMillis();
+				
+				while(bufferin[0] != 49)
+				{
+					if ((System.currentTimeMillis() - startTime) < (Configs.RESEND_TIMEOUT * 1000))
+					{
+						Thread.sleep(Configs.TIMEOUT_WAIT_ACKS);
+					}
+					else
+					{
+						resend = true;
+						break;
+					}
+				}
+				bufferin[0] = 0;
+				
+				if (!resend)
+				{
+					receivedAcks++;
+					LOGGER.info(receivedAcks + " received");
+				}
+				else break;
+			}
+			
+			LOGGER.info("For the time " + resentTimes + " received " + receivedAcks + " acks");
+			
+			if (!resend)
+			{
+				return true;
+			}
+		}
+		
+		return false;
 	}
 	
 }

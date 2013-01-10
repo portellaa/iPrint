@@ -7,9 +7,8 @@ import java.net.Socket;
 import java.util.logging.Logger;
 
 import shared.ClientStatus;
-import arduinocomm.SerialCom;
 
-public class HandleClient extends Thread {
+public class HandleClient {
 	
 	private final static Logger LOGGER = Logger.getLogger(HandleClient.class.getName());
 
@@ -18,11 +17,10 @@ public class HandleClient extends Thread {
 	private DataInputStream inClient;
 	private DataOutputStream outClient;
 	
-	private SerialCom arduinoSender;
-	
 	private boolean running = false;
+	private TCPServer server;
 	
-	public HandleClient(SerialCom _arduinoSender, Socket client)
+	public HandleClient(TCPServer _server, Socket client)
 	{
 		LOGGER.info("Initializing HandleClient to client IP: " + client.getInetAddress().getHostAddress());
 		clientSocket = client;
@@ -33,9 +31,9 @@ public class HandleClient extends Thread {
 			inClient = new DataInputStream(client.getInputStream());
 			outClient = new DataOutputStream(clientSocket.getOutputStream());
 			
-			LOGGER.info("Opened streams");
+			server = _server;
 			
-			arduinoSender = _arduinoSender;
+			LOGGER.info("Opened streams");
 			
 		} catch (IOException e) {
 			LOGGER.warning("Error openning streams. Cause: " + e.getCause() + ". Message: " + e.getMessage());
@@ -45,7 +43,7 @@ public class HandleClient extends Thread {
 	}
 	
 	
-	@Override
+//	@Override
 	public void run() {
 		
 		LOGGER.info("Started HandleClient to client IP: " + clientSocket.getInetAddress().getHostAddress());
@@ -114,25 +112,32 @@ public class HandleClient extends Thread {
 						}
 						case DATA:
 						{
-//							if (arduinoSender.sendData(array, fileExt, fileSize))
-//							{
+							if (server.sendDataToArduino(array, fileExt, fileSize))
+							{
 								outClient.write(new String("DATA_SENT_OK").getBytes());
-//							}
-//							else outClient.write(new String("DATA_SENT_ERROR").getBytes());
+							}
+							else outClient.write(new String("DATA_SENT_ERROR").getBytes());
 							
 							running = false;
+							
+							inClient.close();
+							outClient.close();
 							
 							break;
 						}
 					}
 				}
 				
-//			} catch (InterruptedException e) {
-//				LOGGER.warning("Error receiving data. Cause: " + e.getCause() + ". Message: " + e.getMessage());
+			} catch (InterruptedException e) {
+				LOGGER.warning("Error receiving data. Cause: " + e.getCause() + ". Message: " + e.getMessage());
 			} catch (IOException e) {
 				LOGGER.warning("Error receiving data. Cause: " + e.getCause() + ". Message: " + e.getMessage());
 			}
 		}
+		
+		server = null;
+		inClient = null;
+		outClient = null;
 		
 		LOGGER.info("Finished HandleClient to client IP: " + clientSocket.getInetAddress().getHostAddress());
 	}

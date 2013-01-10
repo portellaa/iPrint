@@ -11,4 +11,10 @@ public class Configs {
 	public static final String ARDUINO_WIN_PORT = "COM7";				//TODO check port
 	public static final String ARDUINO_MAC_PORT = "/dev/tty.usbmodem621";		//TODO complete port
 	
+	public static final int RESEND_TIMES = 3;
+	public static final int THREADS_TIMEOUT = 500;		// threads timeout in milisecondsseconds
+	public static final int TIMEOUT_WAIT_ACKS = 10;		// timeout in milisecondsseconds
+	public static final int RESEND_TIMEOUT = 10;		// resend information timeout in seconds
+	
+	public static final int DELAY_PACKETS = 10;		// timeout in milisecondsseconds
 }

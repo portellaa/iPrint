@@ -19,14 +19,16 @@ public class MainProgram {
 			arduinoSender = new SerialCom();
 			
 			//TODO uncoment to work
-//			if (!arduinoSender.initialize())
-//				return;
+			if (!arduinoSender.initialize())
+				return;
 			
 			server = new TCPServer(arduinoSender);
-			server.start();
+			server.run();
 			
 			Runtime.getRuntime().addShutdownHook(new Thread() {
-			    public void run() { arduinoSender.close(); }
+			    public void run() {
+			    	server.close();
+			    	arduinoSender.disconnect(); }
 			});
 			
 		} catch (SecurityException e) {

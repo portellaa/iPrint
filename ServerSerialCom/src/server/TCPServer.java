@@ -9,7 +9,7 @@ import java.util.logging.Logger;
 import shared.Configs;
 import arduinocomm.SerialCom;
 
-public class TCPServer extends Thread {
+public class TCPServer {
 	
 	private final static Logger LOGGER = Logger.getLogger(TCPServer.class.getName());
 	
@@ -34,7 +34,7 @@ public class TCPServer extends Thread {
 		LOGGER.info("Initialized TCP Server.");
 	}
 	
-	@Override
+//	@Override
 	public void run() {
 		
 		LOGGER.info("Started TCP Server");
@@ -47,19 +47,22 @@ public class TCPServer extends Thread {
 				socket.setSoTimeout(Configs.SERVER_SOCKET_TIMEOUT);
 				
 				Socket clientSocket = socket.accept();
+				
 				LOGGER.info("Received connection from " + clientSocket.getInetAddress().getHostAddress());
-				HandleClient clientConnHandler = new HandleClient(arduinoSender, clientSocket);
-				clientConnHandler.start();
+				
+				HandleClient clientConnHandler = new HandleClient(this, clientSocket);
+				clientConnHandler.run();
 				
 			} catch (SocketTimeoutException e) {
 				LOGGER.info("Server socket timeout");
 			} catch (IOException e) {
 				LOGGER.warning("Socket error. Cause: " + e.getCause() + ". Message: " + e.getMessage());
+				close();
 			}
 		}
 	}
 	
-	public void close()
+	public synchronized void close()
 	{
 		LOGGER.info("Setting server to close");
 		serverRunning = false;
@@ -68,5 +71,10 @@ public class TCPServer extends Thread {
 		} catch (IOException e) {
 			LOGGER.warning("Socket close error. Cause: " + e.getCause() + ". Message: " + e.getMessage());
 		}
+	}
+	
+	public synchronized boolean sendDataToArduino(byte[] data, String extension, int bytesSize) throws InterruptedException
+	{
+		return arduinoSender.sendData(data, extension, bytesSize);
 	}
 }
