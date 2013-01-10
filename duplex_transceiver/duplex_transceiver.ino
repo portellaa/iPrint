@@ -5,11 +5,11 @@
 #define SS 10
 #define MISO 12
 
-byte recept[16] = 0;
-byte dataIn[16] = 0;
+byte recept[16];
+byte dataIn[16];
 int length;
-byte DataOut[16]=0; //16bytes
-byte DataIn[16] = 0;//Should be 16bytes
+byte DataOut[16]; //16bytes
+byte DataIn[16];//Should be 16bytes
 
 int i;
 
@@ -19,6 +19,7 @@ void setup(){
 
   Serial.begin(115200);      //Configure serial port
   Serial.println("Hello!");
+  Serial.flush();
   
   DataOut[0] = 49;
 
@@ -31,7 +32,7 @@ void setup(){
   }
 
   // configure board to read RFID tags and cards
-//  nfc.SAMConfig();
+  nfc.SAMConfig();
 }
 
 void loop(){
@@ -39,11 +40,9 @@ void loop(){
   if(nfc.configurePeerAsTarget()) //if connection is error-free
   {
     //trans-receive data
-    if(nfc.targetTxRx(DataOut,DataIn))
+    if(nfc.targetTxRx((char*)DataOut,(char*)DataIn))
     {
-      Serial.print(DataIn);
-      for (i = 0; i < 16; i++)
-        DataIn = 0;
+      Serial.print((char*)DataIn);
     }
   }  
 }
@@ -51,17 +50,17 @@ void loop(){
 void serialEvent(){
 
   length=Serial.available();
-  Serial.readBytes(recept, length);//read bytes from serial port
+  Serial.readBytes((char*)recept, length);//read bytes from serial port
   
       //trans-receive data
   if(nfc.configurePeerAsInitiator(2)) //if connection is error-free
-    if(nfc.initiatorTxRx(recept,dataIn))
+    if(nfc.initiatorTxRx((char*)recept,(char*)dataIn))
     {
-      Serial.print(dataIn);
+      Serial.print((char*)dataIn);
+      Serial.flush();
       for(i = 0; i < 16; i++)
       {
         recept[i] = 0;
-        dataIn[i] = 0;
       }
     }
 }
